@@ -101,7 +101,7 @@ snap.data().currentMcdo + " / 1500";
 
 let coucheMcdo = null;
 
-fetch('mcdo_1500_trace_final.geojson')
+fetch('mcdo_1500_points.geojson')
 .then(r => r.json())
 .then(data => {
 
@@ -109,15 +109,9 @@ fetch('mcdo_1500_trace_final.geojson')
 
         onEachFeature: function(feature, layer){
 
-            let titre = "McDo";
-
-            if(feature.properties){
-                titre =
-                    feature.properties.name ||
-                    feature.properties.Name ||
-                    feature.properties.nom ||
-                    "McDo";
-            }
+            const titre =
+                feature.properties?.name ||
+                "McDo";
 
             layer.bindPopup(titre);
 
