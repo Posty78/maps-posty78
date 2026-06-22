@@ -49,6 +49,8 @@ width:100%;
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
@@ -67,13 +69,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const map = L.map('map').setView([46.6,2.2],6);
-<script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js"></script>
+
 L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 {
 maxZoom:19
 }
 ).addTo(map);
+
+omnivore.kml('mcdo_1500_trace_final.kml')
+.addTo(map);
 
 const snap = await getDoc(doc(db,"project","status"));
 
