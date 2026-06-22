@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-
 html,body{
 margin:0;
 height:100%;
@@ -34,7 +33,6 @@ font-weight:bold;
 height:calc(100vh - 70px);
 width:100%;
 }
-
 </style>
 
 </head>
@@ -49,6 +47,7 @@ width:100%;
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
 
 <script>
 
@@ -61,6 +60,12 @@ maxZoom:19,
 attribution:'© OpenStreetMap'
 }
 ).addTo(map);
+
+const coucheMcdo = omnivore.kml(
+'https://raw.githubusercontent.com/Posty78/maps-posty78/refs/heads/main/mcdo_1500_trace_final.kml'
+);
+
+coucheMcdo.addTo(map);
 
 </script>
 
