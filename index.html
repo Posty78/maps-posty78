@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Suivez le Tour de France des 1500 McDonald's en Peugeot 206 — carte interactive en temps réel." />
-  <title>Tour de France des 1500 McDonald's</title>
+  <meta name="description" content="Suivez le Tour de France des 1500 Macdo en Peugeot 206 — carte interactive en temps réel." />
+  <title>Tour de France des 1500 Macdo</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,13 +23,13 @@
     <span class="loader-label">Chargement de la carte…</span>
   </div>
 
-  <div id="map" aria-label="Carte du Tour de France des McDonald's"></div>
+  <div id="map" aria-label="Carte du Tour de France des Macdo"></div>
 
   <div id="hud">
 
     <div class="hud-title">
       <span class="hud-title__eyebrow">Tour de France</span>
-      <span class="hud-title__main">1500 McDonald's</span>
+      <span class="hud-title__main">1500 Macdo</span>
     </div>
 
     <div class="progress-card" role="region" aria-label="Progression du voyage">
@@ -68,7 +68,7 @@
       </svg>
     </button>
 
-    <button id="btn-search" class="icon-btn" aria-label="Rechercher un lieu" aria-expanded="false">
+    <button id="btn-search" class="icon-btn" aria-label="Localiser les passages proche de chez moi" aria-expanded="false">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.35-4.35"/>
@@ -77,9 +77,9 @@
 
   </div>
 
-  <div id="search-panel" role="dialog" aria-label="Recherche de McDonald's" aria-modal="false">
+  <div id="search-panel" role="dialog" aria-label="Recherche de Macdo" aria-modal="false">
     <div class="search-header">
-      <span class="search-label">Trouver les McDonald's proches</span>
+      <span class="search-label">Localiser les passages proche de chez moi</span>
       <form id="search-form" role="search">
         <input
           id="search-input"
@@ -106,14 +106,14 @@
       <span>Parcours</span>
     </button>
 
-    <button id="btn-mcdo" class="fab" aria-pressed="false" aria-label="Afficher / masquer les McDonald's">
+    <button id="btn-mcdo" class="fab" aria-pressed="false" aria-label="Afficher / masquer les Macdo">
       <span class="fab__icon">📍</span>
-      <span>McDonald's</span>
+      <span>Macdo</span>
     </button>
 
   </div>
 
-  <aside id="popup-panel" role="complementary" aria-label="Détails du McDonald's">
+  <aside id="popup-panel" role="complementary" aria-label="Détails du Macdo">
   </aside>
 
 </div>
