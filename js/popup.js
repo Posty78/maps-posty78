@@ -6,6 +6,23 @@ export function closePopup() {
   panel?.classList.remove("is-open");
 }
 
+// ─── Date estimée ──────────────────────────────────────────────────────────────
+const DEPART_DATE = new Date(2026, 8, 1); // 1er septembre 2026
+const TOTAL_JOURS = 365;
+
+const MOIS = [
+  "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+];
+
+function dateEstimee(ordre) {
+  const joursEcoules = Math.floor((ordre / CONFIG.totalMcdo) * TOTAL_JOURS);
+  const date = new Date(DEPART_DATE);
+  date.setDate(date.getDate() + joursEcoules);
+  return `${date.getDate()} ${MOIS[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// ─── Formatage ─────────────────────────────────────────────────────────────────
 function formatVille(raw) {
   return raw
     .split(" ")
@@ -13,6 +30,7 @@ function formatVille(raw) {
     .join(" ");
 }
 
+// ─── Popup ─────────────────────────────────────────────────────────────────────
 export function buildPopup(layer, props) {
   if (!panel) return;
 
@@ -46,6 +64,10 @@ export function buildPopup(layer, props) {
     ? `${ordre} / ${CONFIG.totalMcdo}`
     : "—";
 
+  const dateText = ordre !== null
+    ? dateEstimee(ordre)
+    : "—";
+
   panel.innerHTML = `
     <button class="popup-close-btn" aria-label="Fermer">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -67,7 +89,7 @@ export function buildPopup(layer, props) {
       </div>
       <div class="popup-cell">
         <span class="popup-cell__label">Date estimée</span>
-        <span class="popup-cell__value">—</span>
+        <span class="popup-cell__value">${dateText}</span>
       </div>
       <div class="popup-cell">
         <span class="popup-cell__label">Distance depuis départ</span>
