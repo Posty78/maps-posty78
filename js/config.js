@@ -27,7 +27,7 @@ export const CONFIG = {
     zoom:    6,
     minZoom: 5,
     maxZoom: 19,
-    tileUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    tileUrl: "https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png",
     tileAttribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   },
 
