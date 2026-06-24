@@ -25,6 +25,10 @@ export function updateProgressUI(currentMcdo) {
 }
 
 export function bindLayerButtons() {
+  // Les deux couches sont actives dès le départ
+  if (btnMcdo)     btnMcdo.classList.add("is-active");
+  if (btnParcours) btnParcours.classList.add("is-active");
+
   if (btnMcdo) {
     btnMcdo.addEventListener("click", () => {
       const visible = toggleMcdo();

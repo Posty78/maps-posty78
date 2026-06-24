@@ -1,7 +1,7 @@
 import { CONFIG }                          from "./config.js";
 import { initFirebase, startRealtimeListener } from "./firebase.js";
 import { initMap }                         from "./map.js";
-import { loadLayers, updateMarkerColors }  from "./layers.js";
+import { loadLayers, updateMarkerColors, toggleMcdo, toggleParcours }  from "./layers.js";
 import {
   updateProgressUI,
   bindLayerButtons,
@@ -17,6 +17,10 @@ async function bootstrap() {
     initFirebase(CONFIG.firebase);
 
     await loadLayers(0);
+
+    // Afficher les deux couches dès le départ
+    toggleMcdo();
+    toggleParcours();
 
     startRealtimeListener(CONFIG.firestore);
 
