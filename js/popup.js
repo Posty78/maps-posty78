@@ -6,47 +6,24 @@ export function closePopup() {
   panel?.classList.remove("is-open");
 }
 
-// Point de départ : Les Ulis
-const DEPART = { lat: 48.6819, lng: 2.1693 };
-
-function toRad(deg) { return deg * (Math.PI / 180); }
-
-function distanceKm(lat1, lng1, lat2, lng2) {
-  const R  = 6371;
-  const dL = toRad(lat2 - lat1);
-  const dG = toRad(lng2 - lng1);
-  const x  =
-    Math.sin(dL / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dG / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
-}
-
-function formatName(raw) {
-  // "MC0857 - pontault combault" → "Pontault Combault"
-  const parts = raw.split(" - ");
-  if (parts.length < 2) return raw;
-  return parts[1]
+function formatVille(raw) {
+  return raw
     .split(" ")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 }
 
-function formatId(raw) {
-  // "MC0857 - pontault combault" → "MC0857"
-  const parts = raw.split(" - ");
-  return parts[0].trim();
-}
-
 export function buildPopup(layer, props) {
   if (!panel) return;
 
-  const raw    = props?.name ?? "";
-  const id     = formatId(raw);
-  const ville  = formatName(raw);
-  const index  = parseInt(id.replace("MC", ""), 10);
-  const latlng = layer.getLatLng();
+  const id      = props?.id      ?? "—";
+  const nom     = props?.name    ?? "—";
+  const adresse = props?.adresse ?? "—";
+  const cumul   = props?.cumul_km ?? null;
+  const ordre   = props?.ordre   ?? null;
+  const index   = parseInt(id.replace("MC", ""), 10);
 
-  const dist   = distanceKm(DEPART.lat, DEPART.lng, latlng.lat, latlng.lng);
+  const ville = formatVille(nom);
 
   const current = window.__currentMcdo ?? 0;
   const status  = index < current
@@ -60,6 +37,14 @@ export function buildPopup(layer, props) {
     : index === current
     ? "status--current"
     : "status--future";
+
+  const distanceText = cumul !== null
+    ? `${cumul.toLocaleString("fr-FR")} km`
+    : "—";
+
+  const etapeText = ordre !== null
+    ? `${ordre} / ${CONFIG.totalMcdo}`
+    : "—";
 
   panel.innerHTML = `
     <button class="popup-close-btn" aria-label="Fermer">
@@ -78,19 +63,19 @@ export function buildPopup(layer, props) {
     <div class="popup-grid">
       <div class="popup-cell">
         <span class="popup-cell__label">Adresse</span>
-        <span class="popup-cell__value">—</span>
+        <span class="popup-cell__value">${adresse}</span>
       </div>
       <div class="popup-cell">
         <span class="popup-cell__label">Date estimée</span>
         <span class="popup-cell__value">—</span>
       </div>
       <div class="popup-cell">
-        <span class="popup-cell__label">Distance départ</span>
-        <span class="popup-cell__value">${dist.toFixed(0)} km</span>
+        <span class="popup-cell__label">Distance depuis départ</span>
+        <span class="popup-cell__value">${distanceText}</span>
       </div>
       <div class="popup-cell">
         <span class="popup-cell__label">Étape n°</span>
-        <span class="popup-cell__value">${index} / ${CONFIG.totalMcdo}</span>
+        <span class="popup-cell__value">${etapeText}</span>
       </div>
     </div>
   `;
