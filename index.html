@@ -59,27 +59,32 @@
 
   </div>
 
+  <!-- Bouton recherche centré en haut -->
   <div id="top-controls">
-
-    <button id="btn-locate" class="icon-btn" aria-label="Utiliser ma position">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 1v4M12 19v4M1 12h4M19 12h4"/>
-      </svg>
-    </button>
-
-    <button id="btn-search" class="icon-btn" aria-label="Localiser les passages proche de chez moi" aria-expanded="false">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.35-4.35"/>
-      </svg>
-    </button>
-
+    <div id="search-bar">
+      <span class="search-bar-title">Trouver les Macdo près de chez moi</span>
+      <div class="search-bar-buttons">
+        <button id="btn-locate" class="search-bar-btn" aria-label="Utiliser ma position">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M1 12h4M19 12h4"/>
+          </svg>
+          Ma position
+        </button>
+        <button id="btn-search" class="search-bar-btn" aria-label="Rechercher un lieu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          Rechercher
+        </button>
+      </div>
+    </div>
   </div>
 
   <div id="search-panel" role="dialog" aria-label="Recherche de Macdo" aria-modal="false">
     <div class="search-header">
-      <span class="search-label">Localiser les passages proche de chez moi</span>
+      <span class="search-label">Trouver les Macdo près de chez moi</span>
       <form id="search-form" role="search">
         <input
           id="search-input"
@@ -89,7 +94,7 @@
           aria-label="Rechercher un lieu"
         />
         <button type="submit" class="search-submit-btn" aria-label="Lancer la recherche">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/>
             <path d="m21 21-4.35-4.35"/>
           </svg>
@@ -101,14 +106,14 @@
 
   <div id="floating-controls">
 
-    <button id="btn-parcours" class="fab" aria-pressed="false" aria-label="Afficher / masquer le parcours">
+    <button id="btn-parcours" class="fab" aria-pressed="true">
       <span class="fab__icon">🗺️</span>
-      <span>Parcours</span>
+      <span>Afficher/Masquer tracé</span>
     </button>
 
-    <button id="btn-mcdo" class="fab" aria-pressed="false" aria-label="Afficher / masquer les Macdo">
+    <button id="btn-mcdo" class="fab" aria-pressed="true">
       <span class="fab__icon">📍</span>
-      <span>Macdo</span>
+      <span>Afficher/Masquer les Macdo</span>
     </button>
 
   </div>
