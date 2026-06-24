@@ -26,9 +26,9 @@ export const CONFIG = {
     center:  [46.6034, 1.8883],
     zoom:    6,
     minZoom: 5,
-    maxZoom: 18,
-    tileUrl: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-    tileAttribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 19,
+    tileUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    tileAttribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   },
 
   markerColors: {
