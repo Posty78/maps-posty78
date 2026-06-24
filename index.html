@@ -1,52 +1,127 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Suivez le Tour de France des 1500 McDonald's en Peugeot 206 — carte interactive en temps réel." />
+  <title>Tour de France des 1500 McDonald's</title>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
-<title>Tour de France des 1500 McDo</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="style.css">
-
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/ui.css" />
 </head>
-
 <body>
 
-<div id="header">
+<div id="app">
 
-    <div id="title">
-        Tour de France des 1500 McDo
+  <div id="app-loader" role="status" aria-live="polite">
+    <div class="loader-spinner"></div>
+    <span class="loader-label">Chargement de la carte…</span>
+  </div>
+
+  <div id="map" aria-label="Carte du Tour de France des McDonald's"></div>
+
+  <div id="hud">
+
+    <div class="hud-title">
+      <span class="hud-title__eyebrow">Tour de France</span>
+      <span class="hud-title__main">1500 McDonald's</span>
     </div>
 
-    <div id="progress">
-        Chargement...
+    <div class="progress-card" role="region" aria-label="Progression du voyage">
+      <div class="progress-top">
+        <span id="progress-count" aria-live="polite">— / 1500</span>
+        <span id="progress-percent">— %</span>
+      </div>
+      <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div id="progress-bar-fill"></div>
+      </div>
     </div>
+
+    <div class="legend" role="legend" aria-label="Légende des marqueurs">
+      <div class="legend-item">
+        <span class="legend-dot" style="background: var(--green);"></span>
+        <span>Visités</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background: var(--red); box-shadow: 0 0 6px var(--red);"></span>
+        <span>En cours</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background: var(--blue);"></span>
+        <span>À venir</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="top-controls">
+
+    <button id="btn-locate" class="icon-btn" aria-label="Utiliser ma position">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 1v4M12 19v4M1 12h4M19 12h4"/>
+      </svg>
+    </button>
+
+    <button id="btn-search" class="icon-btn" aria-label="Rechercher un lieu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+    </button>
+
+  </div>
+
+  <div id="search-panel" role="dialog" aria-label="Recherche de McDonald's" aria-modal="false">
+    <div class="search-header">
+      <span class="search-label">Trouver les McDonald's proches</span>
+      <form id="search-form" role="search">
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Ville, adresse, code postal…"
+          autocomplete="off"
+          aria-label="Rechercher un lieu"
+        />
+        <button type="submit" class="search-submit-btn" aria-label="Lancer la recherche">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <div id="search-results" role="list" aria-live="polite" aria-label="Résultats de recherche"></div>
+  </div>
+
+  <div id="floating-controls">
+
+    <button id="btn-parcours" class="fab" aria-pressed="false" aria-label="Afficher / masquer le parcours">
+      <span class="fab__icon">🗺️</span>
+      <span>Parcours</span>
+    </button>
+
+    <button id="btn-mcdo" class="fab" aria-pressed="false" aria-label="Afficher / masquer les McDonald's">
+      <span class="fab__icon">📍</span>
+      <span>McDonald's</span>
+    </button>
+
+  </div>
+
+  <aside id="popup-panel" role="complementary" aria-label="Détails du McDonald's">
+  </aside>
 
 </div>
 
-<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WPeE=" crossorigin=""></script>
 
-<div class="floating">
-
-    <button id="toggleMcdo">
-        📍 McDo
-    </button>
-
-    <button id="toggleTrace">
-        🗺️ Parcours
-    </button>
-
-</div>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<script type="module" src="app.js"></script>
+<script type="module" src="./js/app.js"></script>
 
 </body>
-
 </html>
-```
