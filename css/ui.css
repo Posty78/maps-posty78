@@ -157,6 +157,75 @@
   flex-shrink: 0;
 }
 
+/* ─── Card Giveaway ──────────────────────────────────────────────────────── */
+.info-card {
+  background: rgba(0,0,0,0.92);
+  border:     2px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 0 20px rgba(0,255,0,0.15);
+}
+
+.info-card__title {
+  font-size:   14px;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.info-card__highlight {
+  font-size:   13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.info-card__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-card__list li {
+  font-size:  12px;
+  color: var(--text-secondary);
+  padding-left: 8px;
+  border-left: 2px solid var(--accent);
+}
+
+.info-card__links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0,255,0,0.15);
+}
+
+.info-card__links a {
+  font-size:   12px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity var(--transition);
+}
+
+.info-card__links a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.info-card__kick {
+  font-size:   13px !important;
+  font-weight: 800 !important;
+  color: #00ff00 !important;
+  text-shadow: 0 0 8px #00ff00;
+}
+
 /* ─── Barre recherche centrée ────────────────────────────────────────────── */
 #top-controls {
   position: absolute;
@@ -557,6 +626,7 @@
   #progress-percent { font-size: 16px; }
   .hud-title__main { font-size: 22px; }
   .legend { display: none; }
+  .info-card { display: none; }
 
   #top-controls { top: 12px; left: 50%; transform: translateX(-50%); }
   .search-bar-title { font-size: 13px; }
