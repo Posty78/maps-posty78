@@ -258,10 +258,7 @@
   white-space: nowrap;
 }
 
-.search-bar-buttons {
-  display: flex;
-  gap: 12px;
-}
+.search-bar-buttons { display: flex; gap: 12px; }
 
 .search-bar-btn {
   display: flex;
@@ -573,20 +570,28 @@
 /* ─── Responsive mobile ──────────────────────────────────────────────────── */
 @media (max-width: 640px) {
 
+  /* Cacher zoom Leaflet */
+  .leaflet-control-zoom { display: none !important; }
+
+  /* HUD en bas à gauche */
   #hud {
     top: auto;
-    bottom: 120px;
+    bottom: 130px;
     left: 12px;
     gap: 8px;
+    max-width: 180px;
   }
 
-  .progress-card { min-width: 160px; padding: 10px 12px; }
-  #progress-count { font-size: 24px; }
-  #progress-percent { font-size: 14px; }
-  .hud-title__main { font-size: 18px; }
   .legend { display: none; }
   .info-card { display: none; }
 
+  .progress-card { min-width: unset; width: 100%; padding: 10px 12px; }
+  #progress-count { font-size: 22px; }
+  #progress-percent { font-size: 13px; }
+  .hud-title__main { font-size: 16px; }
+  .hud-title { padding: 8px 12px; }
+
+  /* Recherche en haut pleine largeur */
   #top-controls {
     top: 12px;
     left: 12px;
@@ -615,6 +620,7 @@
     justify-content: center;
   }
 
+  /* Boutons flottants en bas pleine largeur */
   #floating-controls {
     bottom: 16px;
     gap: 8px;
@@ -633,6 +639,7 @@
     padding: 0 16px;
   }
 
+  /* Panneau recherche */
   #search-panel {
     left: 12px;
     right: 12px;
@@ -643,6 +650,7 @@
 
   #search-panel.is-open { transform: translateY(0) scale(1); }
 
+  /* Popup en bas */
   #popup-panel {
     top: auto;
     bottom: 0;
