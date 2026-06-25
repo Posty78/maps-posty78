@@ -1,6 +1,7 @@
 import { CONFIG }             from "./config.js";
 import { getAllMcdoFeatures } from "./layers.js";
 import { flyTo }              from "./map.js";
+import { buildPopup }         from "./popup.js";
 
 function toRad(deg) { return deg * (Math.PI / 180); }
 
@@ -44,27 +45,62 @@ function renderResults(results) {
 
   if (!results.length) {
     resultsContainer.innerHTML =
-      `<p class="search-empty">Aucun McDonald's trouvé à proximité.</p>`;
+      `<p class="search-empty">Aucun Macdo trouvé à proximité.</p>`;
     return;
   }
 
   resultsContainer.innerHTML = results
-    .map(
-      (r) => `
-      <button class="search-result-item" data-lat="${r.latlng.lat}" data-lng="${r.latlng.lng}">
-        <span class="result-id">${r.id}</span>
-        <span class="result-name">${r.properties?.name ?? "McDonald's"}</span>
-        <span class="result-distance">${r.distance.toFixed(1)} km</span>
-      </button>`
-    )
+    .map((r) => {
+      const nom = r.properties?.name ?? "Macdo";
+      const ville = nom.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+      const date = r.properties?.ordre ? dateEstimee(r.properties.ordre) : "—";
+      return `
+        <button class="search-result-item"
+          data-lat="${r.latlng.lat}"
+          data-lng="${r.latlng.lng}"
+          data-id="${r.id}">
+          <span class="result-id">${r.id}</span>
+          <span class="result-info">
+            <span class="result-name">${ville}</span>
+            <span class="result-date">${date}</span>
+          </span>
+          <span class="result-distance">${r.distance.toFixed(1)} km</span>
+        </button>`;
+    })
     .join("");
 
   resultsContainer.querySelectorAll(".search-result-item").forEach((btn) => {
     btn.addEventListener("click", () => {
-      flyTo([parseFloat(btn.dataset.lat), parseFloat(btn.dataset.lng)], 15);
+      const lat = parseFloat(btn.dataset.lat);
+      const lng = parseFloat(btn.dataset.lng);
+      const id  = btn.dataset.id;
+
+      flyTo([lat, lng], 15);
       closeSearch();
+
+      // Ouvrir la popup du Macdo sélectionné
+      const features = getAllMcdoFeatures();
+      const found = features.find((f) => f.id === id);
+      if (found) {
+        buildPopup(found.layer, found.properties);
+      }
     });
   });
+}
+
+// Calcul date estimée (même logique que popup.js)
+const DEPART_DATE = new Date(2026, 8, 1);
+const TOTAL_JOURS = 365;
+const MOIS = [
+  "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+];
+
+function dateEstimee(ordre) {
+  const joursEcoules = Math.floor((ordre / CONFIG.totalMcdo) * TOTAL_JOURS);
+  const date = new Date(DEPART_DATE);
+  date.setDate(date.getDate() + joursEcoules);
+  return `${date.getDate()} ${MOIS[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 function showSearchLoader() {
@@ -79,7 +115,6 @@ function showSearchError(msg) {
 
 export async function searchByQuery(query) {
   if (!query.trim()) return;
-
   showSearchLoader();
 
   const point = await geocode(query);
@@ -91,7 +126,6 @@ export async function searchByQuery(query) {
 
   const results = findNearest(point);
   renderResults(results);
-
   flyTo([point.lat, point.lng], 10);
 }
 
