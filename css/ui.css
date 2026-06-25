@@ -30,7 +30,7 @@
 }
 
 .hud-title__eyebrow {
-  font-size:   11px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -40,7 +40,7 @@
 }
 
 .hud-title__main {
-  font-size:   32px;
+  font-size: 32px;
   font-weight: 900;
   color: #ffffff;
   line-height: 1.1;
@@ -50,7 +50,7 @@
 /* ─── Progression ────────────────────────────────────────────────────────── */
 .progress-card {
   background: rgba(0,0,0,0.70);
-  border:     2px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: var(--radius-md);
   padding: 18px 20px;
   pointer-events: auto;
@@ -67,7 +67,7 @@
 }
 
 #progress-count {
-  font-size:   42px;
+  font-size: 42px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   color: #ffffff;
@@ -77,7 +77,7 @@
 }
 
 #progress-percent {
-  font-size:   22px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--accent);
   font-family: var(--font-mono);
@@ -92,8 +92,8 @@
 }
 
 #progress-bar-fill {
-  height:   100%;
-  width:    0%;
+  height: 100%;
+  width: 0%;
   background: linear-gradient(90deg, #00cc44 0%, #aaff00 100%);
   border-radius: 99px;
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -108,7 +108,7 @@
 }
 
 .progress-distance__label {
-  font-size:   11px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -116,7 +116,7 @@
 }
 
 .progress-distance__value {
-  font-size:   16px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--accent);
   font-family: var(--font-mono);
@@ -125,7 +125,7 @@
 /* ─── Légende ────────────────────────────────────────────────────────────── */
 .legend {
   background: rgba(0,0,0,0.70);
-  border:     2px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: var(--radius-md);
   padding: 12px 16px;
   pointer-events: auto;
@@ -145,7 +145,7 @@
 }
 
 .legend-dot {
-  width:  10px;
+  width: 10px;
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
@@ -154,7 +154,7 @@
 /* ─── Card Giveaway ──────────────────────────────────────────────────────── */
 .info-card {
   background: rgba(0,0,0,0.70);
-  border:     2px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: var(--radius-md);
   padding: 16px 18px;
   pointer-events: auto;
@@ -166,14 +166,14 @@
 }
 
 .info-card__title {
-  font-size:   16px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--accent);
   letter-spacing: 0.05em;
 }
 
 .info-card__highlight {
-  font-size:   14px;
+  font-size: 14px;
   font-weight: 700;
   color: #ffffff;
 }
@@ -186,7 +186,7 @@
 }
 
 .info-card__list li {
-  font-size:  13px;
+  font-size: 13px;
   font-weight: 500;
   color: #ffffff;
   padding-left: 10px;
@@ -203,7 +203,7 @@
 
 .info-card__links a {
   display: block;
-  font-size:   13px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--accent);
   text-decoration: none;
@@ -220,7 +220,7 @@
 }
 
 .info-card__kick {
-  font-size:   14px !important;
+  font-size: 14px !important;
   font-weight: 800 !important;
   background: rgba(0,204,68,0.1) !important;
   border-color: var(--accent) !important;
@@ -229,8 +229,8 @@
 /* ─── Barre recherche centrée ────────────────────────────────────────────── */
 #top-controls {
   position: absolute;
-  top:   20px;
-  left:  50%;
+  top: 20px;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 400;
   display: flex;
@@ -240,7 +240,7 @@
 
 #search-bar {
   background: rgba(0,0,0,0.70);
-  border:     2px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: var(--radius-lg);
   padding: 14px 24px;
   display: flex;
@@ -251,7 +251,7 @@
 }
 
 .search-bar-title {
-  font-size:   17px;
+  font-size: 17px;
   font-weight: 700;
   color: #ffffff;
   text-align: center;
@@ -270,7 +270,7 @@
   padding: 0 32px;
   height: 52px;
   background: rgba(0,204,68,0.1);
-  border:     2px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: var(--radius-md);
   color: var(--accent);
   font-size: 16px;
@@ -280,9 +280,7 @@
   cursor: pointer;
 }
 
-.search-bar-btn:hover {
-  background: rgba(0,204,68,0.2);
-}
+.search-bar-btn:hover { background: rgba(0,204,68,0.2); }
 
 /* ─── Boutons flottants ──────────────────────────────────────────────────── */
 #floating-controls {
@@ -305,7 +303,7 @@
   padding: 0 32px;
   height: 64px;
   background: rgba(0,0,0,0.85) !important;
-  border:     2px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: var(--radius-lg);
   color: #ffffff;
   font-size: 17px;
@@ -318,16 +316,8 @@
 }
 
 .fab:hover { color: var(--accent); }
-
-.fab.is-active {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.fab__icon {
-  font-size: 26px;
-  line-height: 1;
-}
+.fab.is-active { color: var(--accent); border-color: var(--accent); }
+.fab__icon { font-size: 26px; line-height: 1; }
 
 /* ─── Panneau recherche ──────────────────────────────────────────────────── */
 #search-panel {
@@ -338,7 +328,7 @@
   z-index: 500;
   width: 440px;
   background: rgba(0,0,0,0.90);
-  border:     2px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: var(--radius-lg);
   overflow: hidden;
   opacity: 0;
@@ -349,7 +339,7 @@
 
 #search-panel.is-open {
   transform: translateX(-50%) translateY(0) scale(1);
-  opacity:   1;
+  opacity: 1;
   pointer-events: auto;
 }
 
@@ -359,17 +349,14 @@
 }
 
 .search-label {
-  font-size:   16px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--accent);
   display: block;
   margin-bottom: 12px;
 }
 
-#search-form {
-  display: flex;
-  gap: 10px;
-}
+#search-form { display: flex; gap: 10px; }
 
 #search-input {
   flex: 1;
@@ -389,7 +376,7 @@
 #search-input::placeholder { color: var(--text-muted); }
 
 .search-submit-btn {
-  width:  50px;
+  width: 50px;
   height: 50px;
   display: flex;
   align-items: center;
@@ -416,7 +403,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  width:   100%;
+  width: 100%;
   padding: 12px 14px;
   border-radius: var(--radius-sm);
   transition: background var(--transition);
@@ -428,7 +415,7 @@
 
 .result-id {
   font-family: var(--font-mono);
-  font-size:   11px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--accent);
   min-width: 58px;
@@ -443,7 +430,7 @@
 }
 
 .result-name {
-  font-size:  14px;
+  font-size: 14px;
   font-weight: 600;
   color: #ffffff;
   overflow: hidden;
@@ -452,21 +439,19 @@
 }
 
 .result-date {
-  font-size:  12px;
+  font-size: 12px;
   color: var(--accent);
   font-family: var(--font-mono);
 }
 
 .result-distance {
-  font-size:  12px;
+  font-size: 12px;
   color: var(--text-muted);
   font-family: var(--font-mono);
   flex-shrink: 0;
 }
 
-.search-empty,
-.search-loading,
-.search-error {
+.search-empty, .search-loading, .search-error {
   padding: 24px;
   text-align: center;
   font-size: 14px;
@@ -478,11 +463,11 @@
 /* ─── Popup panel ────────────────────────────────────────────────────────── */
 #popup-panel {
   position: absolute;
-  top:    0;
-  right:  0;
+  top: 0;
+  right: 0;
   bottom: 0;
   z-index: 600;
-  width:  340px;
+  width: 340px;
   background: rgba(0,0,0,0.90);
   border-left: 2px solid var(--accent);
   padding: 24px 20px;
@@ -498,15 +483,15 @@
 
 .popup-close-btn {
   position: absolute;
-  top:   16px;
+  top: 16px;
   right: 16px;
-  width:  34px;
+  width: 34px;
   height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0,204,68,0.08);
-  border:     1px solid rgba(0,204,68,0.25);
+  border: 1px solid rgba(0,204,68,0.25);
   border-radius: var(--radius-sm);
   color: var(--accent);
   transition: all var(--transition);
@@ -526,7 +511,7 @@
 
 .popup-id {
   font-family: var(--font-mono);
-  font-size:   13px;
+  font-size: 13px;
   font-weight: 700;
   color: #000;
   background: var(--accent);
@@ -535,7 +520,7 @@
 }
 
 .popup-status {
-  font-size:   11px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -548,7 +533,7 @@
 .status--future  { color: var(--blue); background: rgba(59,130,246,0.15); border: 1px solid var(--blue); }
 
 .popup-name {
-  font-size:   22px;
+  font-size: 22px;
   font-weight: 800;
   color: #ffffff;
   line-height: 1.2;
@@ -563,7 +548,7 @@
 
 .popup-cell {
   background: rgba(0,204,68,0.05);
-  border:     1px solid rgba(0,204,68,0.15);
+  border: 1px solid rgba(0,204,68,0.15);
   border-radius: var(--radius-sm);
   padding: 12px;
   display: flex;
@@ -572,7 +557,7 @@
 }
 
 .popup-cell__label {
-  font-size:   10px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -580,7 +565,7 @@
 }
 
 .popup-cell__value {
-  font-size:  14px;
+  font-size: 14px;
   font-weight: 600;
   color: #ffffff;
 }
@@ -588,7 +573,6 @@
 /* ─── Responsive mobile ──────────────────────────────────────────────────── */
 @media (max-width: 640px) {
 
-  /* HUD à gauche — on le cache presque entièrement sauf le titre */
   #hud {
     top: auto;
     bottom: 120px;
@@ -603,7 +587,6 @@
   .legend { display: none; }
   .info-card { display: none; }
 
-  /* Barre recherche en haut centrée */
   #top-controls {
     top: 12px;
     left: 12px;
@@ -632,7 +615,6 @@
     justify-content: center;
   }
 
-  /* Boutons flottants en bas */
   #floating-controls {
     bottom: 16px;
     gap: 8px;
@@ -651,7 +633,6 @@
     padding: 0 16px;
   }
 
-  /* Panneau recherche */
   #search-panel {
     left: 12px;
     right: 12px;
@@ -660,11 +641,8 @@
     transform: translateY(-8px) scale(0.97);
   }
 
-  #search-panel.is-open {
-    transform: translateY(0) scale(1);
-  }
+  #search-panel.is-open { transform: translateY(0) scale(1); }
 
-  /* Popup en bas */
   #popup-panel {
     top: auto;
     bottom: 0;
