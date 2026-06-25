@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Fond noir -->
+  <rect width="64" height="64" rx="12" fill="#000000"/>
+
+  <!-- Corps du pin -->
+  <path d="M32 6 C20 6 12 15 12 25 C12 38 32 58 32 58 C32 58 52 38 52 25 C52 15 44 6 32 6Z"
+    fill="#001a00" stroke="#00ff00" stroke-width="2.5"/>
+
+  <!-- Dégradé intérieur -->
+  <path d="M32 10 C22 10 16 18 16 25 C16 36 32 53 32 53 C32 53 48 36 48 25 C48 18 42 10 32 10Z"
+    fill="#003300"/>
+
+  <!-- Cercle central -->
+  <circle cx="32" cy="25" r="9" fill="#000000" stroke="#00ff00" stroke-width="2"/>
+
+  <!-- Point central vert fluo -->
+  <circle cx="32" cy="25" r="5" fill="#00ff00"/>
+  <circle cx="32" cy="25" r="2.5" fill="#aaffaa"/>
+
+  <!-- Reflet sur le pin -->
+  <path d="M22 16 C24 13 28 11 32 11" stroke="rgba(0,255,0,0.3)" stroke-width="2" stroke-linecap="round" fill="none"/>
+</svg>
