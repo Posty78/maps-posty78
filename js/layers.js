@@ -16,20 +16,55 @@ function getMarkerColor(markerIndex, currentMcdo) {
 }
 
 function createMarkerIcon(color, isCurrent = false) {
-  const size   = isCurrent ? 14 : 8;
-  const shadow = isCurrent
-    ? `drop-shadow(0 0 6px ${color})`
-    : `drop-shadow(0 0 2px rgba(0,0,0,0.6))`;
+  const size = isCurrent ? 20 : 8;
 
+  if (isCurrent) {
+    return L.divIcon({
+      className: "",
+      html: `
+        <div style="position:relative; width:40px; height:40px; transform:translate(-10px,-10px);">
+          <div style="
+            position:absolute;
+            top:50%; left:50%;
+            transform:translate(-50%,-50%);
+            width:40px; height:40px;
+            border-radius:50%;
+            background:rgba(239,68,68,0.3);
+            animation: pulseRing 1.5s ease-out infinite;
+          "></div>
+          <div style="
+            position:absolute;
+            top:50%; left:50%;
+            transform:translate(-50%,-50%);
+            width:20px; height:20px;
+            border-radius:50%;
+            background:#ef4444;
+            border:2px solid white;
+            box-shadow: 0 0 10px #ef4444;
+          "></div>
+        </div>
+        <style>
+          @keyframes pulseRing {
+            0%   { transform:translate(-50%,-50%) scale(0.5); opacity:1; }
+            100% { transform:translate(-50%,-50%) scale(2);   opacity:0; }
+          }
+        </style>
+      `,
+      iconSize:   [40, 40],
+      iconAnchor: [10, 10],
+    });
+  }
+
+  const shadow = `drop-shadow(0 0 2px rgba(0,0,0,0.6))`;
   return L.divIcon({
     className: "",
     html: `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"
              xmlns="http://www.w3.org/2000/svg" style="filter:${shadow}">
-             <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}"
+             <circle cx="${size/2}" cy="${size/2}" r="${size/2}"
                fill="${color}" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
            </svg>`,
     iconSize:   [size, size],
-    iconAnchor: [size / 2, size / 2],
+    iconAnchor: [size/2, size/2],
   });
 }
 
@@ -95,7 +130,6 @@ function _buildMcdoLayer(geojsonData, currentMcdo) {
       const index = parseInt(id.replace("MC", ""), 10);
       const color = getMarkerColor(index, currentMcdo);
 
-      // Icône spéciale pour départ et arrivée
       let icon;
       if (ordre === 1) {
         icon = createSpecialIcon("🏁", "#22c55e", "DÉPART");
@@ -105,10 +139,12 @@ function _buildMcdoLayer(geojsonData, currentMcdo) {
         icon = createMarkerIcon(color, index === currentMcdo);
       }
 
-      const marker = L.marker(latlng, { icon, zIndexOffset: ordre === 1 || ordre === 1500 ? 1000 : 0 });
+      const marker = L.marker(latlng, {
+        icon,
+        zIndexOffset: ordre === 1 || ordre === 1500 ? 1000 : index === currentMcdo ? 500 : 0
+      });
 
       _markerIndex.set(id, { marker, index });
-
       return marker;
     },
 
@@ -155,7 +191,6 @@ export function updateMarkerColors(currentMcdo) {
   if (!_mcdoLayer) return;
 
   _markerIndex.forEach(({ marker, index }, id) => {
-    // Ne pas changer les icônes spéciales départ/arrivée
     if (index === 1 || index === 1500) return;
     const color = getMarkerColor(index, currentMcdo);
     const icon  = createMarkerIcon(color, index === currentMcdo);
