@@ -33,6 +33,48 @@ function createMarkerIcon(color, isCurrent = false) {
   });
 }
 
+function createSpecialIcon(emoji, color, label) {
+  return L.divIcon({
+    className: "",
+    html: `
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+      ">
+        <div style="
+          background: ${color};
+          border: 2px solid white;
+          border-radius: 50% 50% 50% 0;
+          transform: rotate(-45deg);
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+          <span style="transform: rotate(45deg); font-size: 18px; line-height:1;">${emoji}</span>
+        </div>
+        <div style="
+          background: ${color};
+          color: white;
+          font-size: 10px;
+          font-weight: 700;
+          padding: 2px 6px;
+          border-radius: 4px;
+          margin-top: 2px;
+          white-space: nowrap;
+          font-family: Inter, sans-serif;
+          letter-spacing: 0.05em;
+        ">${label}</div>
+      </div>
+    `,
+    iconSize:   [60, 56],
+    iconAnchor: [18, 54],
+  });
+}
+
 export async function loadLayers(currentMcdo) {
   const [pointsData, parcoursData] = await Promise.all([
     fetch(CONFIG.geojson.points).then((r) => r.json()),
@@ -49,11 +91,21 @@ function _buildMcdoLayer(geojsonData, currentMcdo) {
   _mcdoLayer = L.geoJSON(geojsonData, {
     pointToLayer(feature, latlng) {
       const id    = feature.properties?.id ?? "";
+      const ordre = feature.properties?.ordre ?? 0;
       const index = parseInt(id.replace("MC", ""), 10);
       const color = getMarkerColor(index, currentMcdo);
-      const icon  = createMarkerIcon(color, index === currentMcdo);
 
-      const marker = L.marker(latlng, { icon });
+      // Icône spéciale pour départ et arrivée
+      let icon;
+      if (ordre === 1) {
+        icon = createSpecialIcon("🏁", "#22c55e", "DÉPART");
+      } else if (ordre === 1500) {
+        icon = createSpecialIcon("🏆", "#ef4444", "ARRIVÉE");
+      } else {
+        icon = createMarkerIcon(color, index === currentMcdo);
+      }
+
+      const marker = L.marker(latlng, { icon, zIndexOffset: ordre === 1 || ordre === 1500 ? 1000 : 0 });
 
       _markerIndex.set(id, { marker, index });
 
@@ -102,7 +154,9 @@ export function isParcoursVisible() { return _parcoursVisible; }
 export function updateMarkerColors(currentMcdo) {
   if (!_mcdoLayer) return;
 
-  _markerIndex.forEach(({ marker, index }) => {
+  _markerIndex.forEach(({ marker, index }, id) => {
+    // Ne pas changer les icônes spéciales départ/arrivée
+    if (index === 1 || index === 1500) return;
     const color = getMarkerColor(index, currentMcdo);
     const icon  = createMarkerIcon(color, index === currentMcdo);
     marker.setIcon(icon);
