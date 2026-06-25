@@ -21,7 +21,7 @@
 }
 
 .hud-title {
-  pointer-events: none;
+  pointer-events: auto;
   background: rgba(0,0,0,0.92);
   border: 2px solid var(--accent);
   border-radius: var(--radius-md);
@@ -162,16 +162,17 @@
   background: rgba(0,0,0,0.92);
   border:     2px solid var(--accent);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
+  padding: 16px 18px;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   box-shadow: 0 0 20px rgba(0,255,0,0.15);
+  min-width: 260px;
 }
 
 .info-card__title {
-  font-size:   14px;
+  font-size:   16px;
   font-weight: 800;
   color: var(--accent);
   text-shadow: 0 0 8px var(--accent);
@@ -179,7 +180,7 @@
 }
 
 .info-card__highlight {
-  font-size:   13px;
+  font-size:   14px;
   font-weight: 700;
   color: #ffffff;
 }
@@ -188,42 +189,50 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .info-card__list li {
-  font-size:  12px;
-  color: var(--text-secondary);
-  padding-left: 8px;
+  font-size:  13px;
+  font-weight: 500;
+  color: #ffffff;
+  padding-left: 10px;
   border-left: 2px solid var(--accent);
 }
 
 .info-card__links {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(0,255,0,0.15);
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,255,0,0.25);
 }
 
 .info-card__links a {
-  font-size:   12px;
-  font-weight: 600;
+  display: block;
+  font-size:   13px;
+  font-weight: 700;
   color: var(--accent);
   text-decoration: none;
-  transition: opacity var(--transition);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0,255,0,0.2);
+  background: rgba(0,255,0,0.05);
+  transition: all var(--transition);
+  text-shadow: 0 0 6px rgba(0,255,0,0.3);
 }
 
 .info-card__links a:hover {
-  opacity: 0.75;
-  text-decoration: underline;
+  background: rgba(0,255,0,0.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(0,255,0,0.2);
 }
 
 .info-card__kick {
-  font-size:   13px !important;
+  font-size:   14px !important;
   font-weight: 800 !important;
-  color: #00ff00 !important;
-  text-shadow: 0 0 8px #00ff00;
+  background: rgba(0,255,0,0.1) !important;
+  border-color: var(--accent) !important;
 }
 
 /* ─── Barre recherche centrée ────────────────────────────────────────────── */
