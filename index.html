@@ -40,6 +40,10 @@
       <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
         <div id="progress-bar-fill"></div>
       </div>
+      <div class="progress-distance">
+        <span class="progress-distance__label">Distance parcourue</span>
+        <span id="progress-distance" class="progress-distance__value">— km</span>
+      </div>
     </div>
 
     <div class="legend" role="legend" aria-label="Légende des marqueurs">
@@ -62,21 +66,14 @@
   <!-- Bouton recherche centré en haut -->
   <div id="top-controls">
     <div id="search-bar">
-      <span class="search-bar-title">Trouver les Macdo près de chez moi</span>
+      <span class="search-bar-title">📍 Quand est-ce que je passe près de chez toi ?</span>
       <div class="search-bar-buttons">
-        <button id="btn-locate" class="search-bar-btn" aria-label="Utiliser ma position">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v4M12 19v4M1 12h4M19 12h4"/>
-          </svg>
-          Ma position
-        </button>
         <button id="btn-search" class="search-bar-btn" aria-label="Rechercher un lieu" aria-expanded="false">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/>
             <path d="m21 21-4.35-4.35"/>
           </svg>
-          Rechercher
+          Rechercher ma ville
         </button>
       </div>
     </div>
@@ -84,12 +81,12 @@
 
   <div id="search-panel" role="dialog" aria-label="Recherche de Macdo" aria-modal="false">
     <div class="search-header">
-      <span class="search-label">Trouver les Macdo près de chez moi</span>
+      <span class="search-label">📍 Quand est-ce que je passe près de chez toi ?</span>
       <form id="search-form" role="search">
         <input
           id="search-input"
           type="search"
-          placeholder="Ville, adresse, code postal…"
+          placeholder="Tape ta ville ou ton code postal…"
           autocomplete="off"
           aria-label="Rechercher un lieu"
         />
@@ -105,17 +102,14 @@
   </div>
 
   <div id="floating-controls">
-
     <button id="btn-parcours" class="fab" aria-pressed="true">
       <span class="fab__icon">🗺️</span>
       <span>Afficher/Masquer tracé</span>
     </button>
-
     <button id="btn-mcdo" class="fab" aria-pressed="true">
       <span class="fab__icon">📍</span>
       <span>Afficher/Masquer les Macdo</span>
     </button>
-
   </div>
 
   <aside id="popup-panel" role="complementary" aria-label="Détails du Macdo">

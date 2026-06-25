@@ -1,20 +1,20 @@
 :root {
-  --bg-void:      #0a0a0f;
-  --bg-surface:   #13131a;
-  --bg-elevated:  #1c1c26;
-  --bg-hover:     #24242f;
+  --bg-void:      #000000;
+  --bg-surface:   rgba(0, 0, 0, 0.88);
+  --bg-elevated:  rgba(0, 0, 0, 0.75);
+  --bg-hover:     rgba(0, 255, 0, 0.08);
 
-  --border:       rgba(255, 255, 255, 0.07);
-  --border-light: rgba(255, 255, 255, 0.12);
+  --border:       rgba(0, 255, 0, 0.25);
+  --border-light: rgba(0, 255, 0, 0.6);
 
-  --text-primary:   #f0f0f5;
-  --text-secondary: #8888a0;
-  --text-muted:     #55556a;
+  --text-primary:   #ffffff;
+  --text-secondary: #aaffaa;
+  --text-muted:     #557755;
 
-  --accent:         #f59e0b;
-  --accent-dim:     rgba(245, 158, 11, 0.15);
+  --accent:         #00ff00;
+  --accent-dim:     rgba(0, 255, 0, 0.12);
 
-  --green:  #22c55e;
+  --green:  #00ff00;
   --red:    #ef4444;
   --blue:   #3b82f6;
 
@@ -28,9 +28,9 @@
   --transition:      200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.65);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.85);
 }
 
 *,
@@ -86,7 +86,7 @@ a {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: var(--bg-void);
+  background: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,18 +103,18 @@ a {
 .loader-spinner {
   width:  36px;
   height: 36px;
-  border: 2px solid var(--border-light);
-  border-top-color: var(--accent);
+  border: 2px solid rgba(0, 255, 0, 0.2);
+  border-top-color: #00ff00;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
 .loader-label {
   font-size:   12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #00ff00;
 }
 
 @keyframes spin {
@@ -122,14 +122,13 @@ a {
 }
 
 .leaflet-container {
-  background: var(--bg-void) !important;
   font-family: var(--font-sans) !important;
 }
 
 .leaflet-control-zoom a {
-  background: var(--bg-elevated) !important;
-  color:  var(--text-primary) !important;
-  border: 1px solid var(--border) !important;
+  background: rgba(0,0,0,0.88) !important;
+  color:  #00ff00 !important;
+  border: 1px solid rgba(0,255,0,0.35) !important;
   width:  32px !important;
   height: 32px !important;
   line-height: 32px !important;
@@ -138,7 +137,7 @@ a {
 }
 
 .leaflet-control-zoom a:hover {
-  background: var(--bg-hover) !important;
+  background: rgba(0,255,0,0.1) !important;
 }
 
 .leaflet-control-zoom {
@@ -149,18 +148,15 @@ a {
 .leaflet-attribution-flag { display: none !important; }
 
 .leaflet-control-attribution {
-  background: rgba(0, 0, 0, 0.45) !important;
-  color: var(--text-muted) !important;
+  background: rgba(0,0,0,0.7) !important;
+  color: #557755 !important;
   font-size: 10px !important;
-  backdrop-filter: blur(4px) !important;
 }
 
 .leaflet-control-attribution a {
-  color: var(--text-secondary) !important;
+  color: #00ff00 !important;
 }
 
 @media (max-width: 640px) {
-  :root {
-    font-size: 13px;
-  }
+  :root { font-size: 13px; }
 }
