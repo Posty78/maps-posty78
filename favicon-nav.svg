@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#000000"/>
+  <!-- Corps voiture -->
+  <rect x="8" y="28" width="48" height="18" rx="4" fill="#001a00" stroke="#00cc44" stroke-width="2"/>
+  <!-- Toit -->
+  <path d="M18 28 L22 16 L42 16 L46 28Z" fill="#001a00" stroke="#00cc44" stroke-width="2"/>
+  <!-- Roue gauche -->
+  <circle cx="18" cy="46" r="7" fill="#000" stroke="#00cc44" stroke-width="2"/>
+  <circle cx="18" cy="46" r="3" fill="#00cc44"/>
+  <!-- Roue droite -->
+  <circle cx="46" cy="46" r="7" fill="#000" stroke="#00cc44" stroke-width="2"/>
+  <circle cx="46" cy="46" r="3" fill="#00cc44"/>
+  <!-- Vitre -->
+  <path d="M22 27 L25 18 L39 18 L42 27Z" fill="#003300" stroke="#00cc44" stroke-width="1"/>
+</svg>
