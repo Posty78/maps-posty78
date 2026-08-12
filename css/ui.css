@@ -33,11 +33,12 @@
 
 .progress-card__label {
   display: block;
-  font-size: 32px;
+  font-size: 96px;
   font-weight: 800;
   letter-spacing: 0;
   text-transform: none;
   color: #ffffff;
+  line-height: 1;
   margin-bottom: 8px;
 }
 
