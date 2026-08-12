@@ -28,12 +28,8 @@
 
   <div id="hud">
 
-    <div class="hud-title">
-      <span class="hud-title__eyebrow">Tour de France</span>
-      <span class="hud-title__main">1500 Macdo</span>
-    </div>
-
     <div class="progress-card" role="region" aria-label="Progression du voyage">
+      <span class="progress-card__label">Macdo</span>
       <div class="progress-top">
         <span id="progress-count" aria-live="polite">- / 1500</span>
         <span id="progress-percent">- %</span>
@@ -48,15 +44,13 @@
     </div>
 
     <div class="progress-card" role="region" aria-label="Villes traversées">
+      <span class="progress-card__label">Villes traversées</span>
       <div class="progress-top">
         <span id="villes-count" aria-live="polite">- / -</span>
         <span id="villes-percent">- %</span>
       </div>
       <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
         <div id="villes-bar-fill"></div>
-      </div>
-      <div class="progress-distance">
-        <span class="progress-distance__label">Villes traversées</span>
       </div>
     </div>
 
