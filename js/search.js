@@ -53,7 +53,7 @@ function renderResults(results) {
     .map((r) => {
       const nom = r.properties?.name ?? "Macdo";
       const ville = nom.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
-      const date = r.properties?.ordre ? dateEstimee(r.properties.ordre) : "—";
+      const date = r.properties?.ordre ? dateEstimee(r.properties.ordre) : "-";
       return `
         <button class="search-result-item"
           data-lat="${r.latlng.lat}"
