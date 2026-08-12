@@ -8,6 +8,7 @@ let _mcdoVisible     = false;
 let _parcoursVisible = false;
 
 const _markerIndex = new Map();
+let _rawFeatures = [];
 
 function getMarkerColor(markerIndex, currentMcdo) {
   if (markerIndex < currentMcdo)   return CONFIG.markerColors.visited;
@@ -116,6 +117,11 @@ export async function loadLayers(currentMcdo) {
     fetch(CONFIG.geojson.parcours).then((r) => r.json()),
   ]);
 
+  _rawFeatures = pointsData.features.map((f) => ({
+    id: f.properties?.id,
+    properties: f.properties,
+  }));
+
   _buildMcdoLayer(pointsData, currentMcdo);
   _buildParcoursLayer(parcoursData);
 }
@@ -210,4 +216,8 @@ export function getAllMcdoFeatures() {
     });
   });
   return features;
+}
+
+export function getRawFeatures() {
+  return _rawFeatures;
 }

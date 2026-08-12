@@ -1,5 +1,5 @@
 import { CONFIG }                                  from "./config.js";
-import { toggleMcdo, toggleParcours, getAllMcdoFeatures } from "./layers.js";
+import { toggleMcdo, toggleParcours, getAllMcdoFeatures, getRawFeatures } from "./layers.js";
 import { openSearch, closeSearch, searchByQuery }  from "./search.js";
 import { locateUser }                              from "./geolocation.js";
 
@@ -38,7 +38,7 @@ function getTotalVilles(features) {
 
 function updateVillesUI(currentMcdo) {
   if (!elVillesCount) return;
-  const features = getAllMcdoFeatures();
+  const features = getRawFeatures();
   if (!features.length) return;
 
   const total = getTotalVilles(features);
