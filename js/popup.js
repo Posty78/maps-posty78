@@ -34,9 +34,9 @@ function formatVille(raw) {
 export function buildPopup(layer, props) {
   if (!panel) return;
 
-  const id      = props?.id      ?? "—";
-  const nom     = props?.name    ?? "—";
-  const adresse = props?.adresse ?? "—";
+  const id      = props?.id      ?? "-";
+  const nom     = props?.name    ?? "-";
+  const adresse = props?.adresse ?? "-";
   const cumul   = props?.cumul_km ?? null;
   const ordre   = props?.ordre   ?? null;
   const index   = parseInt(id.replace("MC", ""), 10);
@@ -58,15 +58,15 @@ export function buildPopup(layer, props) {
 
   const distanceText = cumul !== null
     ? `${cumul.toLocaleString("fr-FR")} km`
-    : "—";
+    : "-";
 
   const etapeText = ordre !== null
     ? `${ordre} / ${CONFIG.totalMcdo}`
-    : "—";
+    : "-";
 
   const dateText = ordre !== null
     ? dateEstimee(ordre)
-    : "—";
+    : "-";
 
   panel.innerHTML = `
     <button class="popup-close-btn" aria-label="Fermer">

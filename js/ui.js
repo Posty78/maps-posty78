@@ -71,7 +71,7 @@ export function updateProgressUI(currentMcdo) {
 
   updateVillesUI(currentMcdo);
 
-  // Distance parcourue — on cherche le Macdo actuel dans le GeoJSON
+  // Distance parcourue - on cherche le Macdo actuel dans le GeoJSON
   if (elDistance && currentMcdo > 0) {
     const features = getAllMcdoFeatures();
     const id = "MC" + String(currentMcdo).padStart(4, "0");
@@ -80,7 +80,7 @@ export function updateProgressUI(currentMcdo) {
       const km = found.properties.cumul_km.toLocaleString("fr-FR");
       elDistance.textContent = `${km} km`;
     } else {
-      elDistance.textContent = "— km";
+      elDistance.textContent = "- km";
     }
   } else if (elDistance) {
     elDistance.textContent = "0 km";
