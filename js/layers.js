@@ -4,6 +4,9 @@ import { CONFIG }     from "./config.js";
 
 let _mcdoLayer     = null;
 let _parcoursLayer = null;
+let _parcoursTraveled = null;
+let _parcoursUpcoming = null;
+let _parcoursCoords   = [];
 let _mcdoVisible     = false;
 let _parcoursVisible = false;
 
@@ -123,7 +126,7 @@ export async function loadLayers(currentMcdo) {
   }));
 
   _buildMcdoLayer(pointsData, currentMcdo);
-  _buildParcoursLayer(parcoursData);
+  _buildParcoursLayer(parcoursData, currentMcdo);
 }
 
 function _buildMcdoLayer(geojsonData, currentMcdo) {
@@ -162,10 +165,30 @@ function _buildMcdoLayer(geojsonData, currentMcdo) {
   });
 }
 
-function _buildParcoursLayer(geojsonData) {
-  _parcoursLayer = L.geoJSON(geojsonData, {
-    style: CONFIG.parcoursStyle,
-  });
+function _buildParcoursLayer(geojsonData, currentMcdo) {
+  const feature = geojsonData.features[0];
+  // Coordonnées GeoJSON en [lng, lat] -> Leaflet attend [lat, lng]
+  _parcoursCoords = feature.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+
+  const splitIndex = _splitIndexFor(currentMcdo);
+
+  _parcoursTraveled = L.polyline(_parcoursCoords.slice(0, splitIndex + 1), CONFIG.parcoursStyle.traveled);
+  _parcoursUpcoming = L.polyline(_parcoursCoords.slice(splitIndex), CONFIG.parcoursStyle.upcoming);
+
+  _parcoursLayer = L.layerGroup([_parcoursUpcoming, _parcoursTraveled]);
+}
+
+// L'index 0 du tracé correspond au départ (MC0001), donc index de coupure = currentMcdo
+function _splitIndexFor(currentMcdo) {
+  const max = _parcoursCoords.length - 1;
+  return Math.max(0, Math.min(currentMcdo, max));
+}
+
+export function updateParcoursColors(currentMcdo) {
+  if (!_parcoursTraveled || !_parcoursUpcoming || !_parcoursCoords.length) return;
+  const splitIndex = _splitIndexFor(currentMcdo);
+  _parcoursTraveled.setLatLngs(_parcoursCoords.slice(0, splitIndex + 1));
+  _parcoursUpcoming.setLatLngs(_parcoursCoords.slice(splitIndex));
 }
 
 export function toggleMcdo() {
