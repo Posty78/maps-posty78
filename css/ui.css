@@ -83,6 +83,31 @@
   font-family: var(--font-mono);
 }
 
+#villes-count {
+  font-size: 42px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+#villes-percent {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+#villes-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00cc44 0%, #aaff00 100%);
+  border-radius: 99px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .progress-bar {
   height: 6px;
   background: rgba(0,204,68,0.1);
