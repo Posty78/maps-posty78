@@ -1,7 +1,7 @@
 import { CONFIG }                          from "./config.js";
 import { initFirebase, startRealtimeListener } from "./firebase.js";
 import { initMap }                         from "./map.js";
-import { loadLayers, updateMarkerColors, toggleMcdo, toggleParcours }  from "./layers.js";
+import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js";
 import {
   updateProgressUI,
   bindLayerButtons,
@@ -40,6 +40,7 @@ window.addEventListener("mcdo:update", (e) => {
   const { currentMcdo } = e.detail;
   updateProgressUI(currentMcdo);
   updateMarkerColors(currentMcdo);
+  updateParcoursColors(currentMcdo);
 });
 
 bootstrap();

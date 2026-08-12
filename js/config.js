@@ -38,9 +38,16 @@ export const CONFIG = {
   },
 
   parcoursStyle: {
-    color:   "#f59e0b",
-    weight:  2.5,
-    opacity: 0.75,
+    traveled: {
+      color:   "#ff1a1a",
+      weight:  3,
+      opacity: 0.9,
+    },
+    upcoming: {
+      color:   "#1e3a5f",
+      weight:  2.5,
+      opacity: 0.85,
+    },
   },
 
   search: {
