@@ -20,7 +20,7 @@ function getMarkerColor(markerIndex, currentMcdo) {
 }
 
 function createMarkerIcon(color, isCurrent = false) {
-  const size = isCurrent ? 20 : 8;
+  const size = isCurrent ? 22 : 12;
 
   if (isCurrent) {
     return L.divIcon({
@@ -59,13 +59,13 @@ function createMarkerIcon(color, isCurrent = false) {
     });
   }
 
-  const shadow = `drop-shadow(0 0 2px rgba(0,0,0,0.6))`;
+  const shadow = `drop-shadow(0 0 2px rgba(0,0,0,0.7))`;
   return L.divIcon({
     className: "",
     html: `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"
              xmlns="http://www.w3.org/2000/svg" style="filter:${shadow}">
-             <circle cx="${size/2}" cy="${size/2}" r="${size/2}"
-               fill="${color}" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+             <circle cx="${size/2}" cy="${size/2}" r="${size/2 - 1}"
+               fill="${color}" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
            </svg>`,
     iconSize:   [size, size],
     iconAnchor: [size/2, size/2],
