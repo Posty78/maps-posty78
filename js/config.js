@@ -50,6 +50,19 @@ export const CONFIG = {
     },
   },
 
+  history: {
+    collection: "tracking_history",
+    // Doit rester identique à TOUR_START_MS / WEEK_MS dans functions/index.js.
+    tourStartMs: Date.UTC(2026, 8, 1),
+    weekMs: 7 * 24 * 60 * 60 * 1000,
+    style: {
+      color:   "#a855f7",
+      weight:  3,
+      opacity: 0.85,
+      dashArray: "6 6",
+    },
+  },
+
   search: {
     maxResults:      10,
     nominatimUrl:    "https://nominatim.openstreetmap.org/search",

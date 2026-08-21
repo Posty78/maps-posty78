@@ -1,5 +1,6 @@
 import { CONFIG }                                  from "./config.js";
 import { toggleMcdo, toggleParcours, getAllMcdoFeatures, getRawFeatures } from "./layers.js";
+import { toggleHistory }                           from "./history.js";
 import { openSearch, closeSearch, searchByQuery }  from "./search.js";
 import { locateUser }                              from "./geolocation.js";
 
@@ -10,8 +11,10 @@ const elDistance  = document.getElementById("progress-distance");
 const elVillesCount   = document.getElementById("villes-count");
 const elVillesPercent = document.getElementById("villes-percent");
 const elVillesBar     = document.getElementById("villes-bar-fill");
-const btnMcdo     = document.getElementById("btn-mcdo");
-const btnParcours = document.getElementById("btn-parcours");
+const btnMcdo       = document.getElementById("btn-mcdo");
+const btnParcours   = document.getElementById("btn-parcours");
+const btnHistorique = document.getElementById("btn-historique");
+const btnInfos      = document.getElementById("btn-infos");
 const btnSearch   = document.getElementById("btn-search");
 const searchInput = document.getElementById("search-input");
 const searchForm  = document.getElementById("search-form");
@@ -107,6 +110,26 @@ export function bindLayerButtons() {
       btnParcours.setAttribute("aria-pressed", String(visible));
     });
   }
+
+  if (btnHistorique) {
+    btnHistorique.addEventListener("click", () => {
+      const visible = toggleHistory();
+      btnHistorique.classList.toggle("is-active", visible);
+      btnHistorique.setAttribute("aria-pressed", String(visible));
+    });
+  }
+}
+
+export function bindInfosButton() {
+  const hud = document.getElementById("hud");
+  if (!btnInfos || !hud) return;
+
+  btnInfos.classList.add("is-active");
+  btnInfos.addEventListener("click", () => {
+    const isNowHidden = hud.classList.toggle("is-hidden");
+    btnInfos.classList.toggle("is-active", !isNowHidden);
+    btnInfos.setAttribute("aria-pressed", String(!isNowHidden));
+  });
 }
 
 export function bindSearchUI() {
