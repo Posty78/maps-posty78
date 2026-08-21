@@ -25,7 +25,7 @@ jobs:
           rsync -a --delete \
             --exclude='.git' \
             --exclude='.github' \
-            --exclude='index.html' \
+            --exclude='/index.html' \
             --exclude='CNAME' \
             --exclude='.nojekyll' \
             --exclude='.gitignore' \
