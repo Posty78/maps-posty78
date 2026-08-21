@@ -19,10 +19,13 @@ function getMarkerColor(markerIndex, currentMcdo) {
   return CONFIG.markerColors.future;
 }
 
-function createMarkerIcon(color, isCurrent = false) {
+function createMarkerIcon(color, isCurrent = false, inProgress = false) {
   const size = isCurrent ? 22 : 12;
 
   if (isCurrent) {
+    // Orange quand la position GPS est entrée dans le rayon de 3km ("en cours"),
+    // rouge tant que le point n'a pas encore été atteint.
+    const pulseColor = inProgress ? "#f97316" : "#ef4444";
     return L.divIcon({
       className: "",
       html: `
@@ -33,7 +36,7 @@ function createMarkerIcon(color, isCurrent = false) {
             transform:translate(-50%,-50%);
             width:40px; height:40px;
             border-radius:50%;
-            background:rgba(239,68,68,0.3);
+            background:${pulseColor}4d;
             animation: pulseRing 1.5s ease-out infinite;
           "></div>
           <div style="
@@ -42,9 +45,9 @@ function createMarkerIcon(color, isCurrent = false) {
             transform:translate(-50%,-50%);
             width:20px; height:20px;
             border-radius:50%;
-            background:#ef4444;
+            background:${pulseColor};
             border:2px solid white;
-            box-shadow: 0 0 10px #ef4444;
+            box-shadow: 0 0 10px ${pulseColor};
           "></div>
         </div>
         <style>
@@ -114,7 +117,7 @@ function createSpecialIcon(emoji, color, label) {
   });
 }
 
-export async function loadLayers(currentMcdo) {
+export async function loadLayers(currentMcdo, currentMcdoInProgress = false) {
   const [pointsData, parcoursData] = await Promise.all([
     fetch(CONFIG.geojson.points).then((r) => r.json()),
     fetch(CONFIG.geojson.parcours).then((r) => r.json()),
@@ -125,11 +128,11 @@ export async function loadLayers(currentMcdo) {
     properties: f.properties,
   }));
 
-  _buildMcdoLayer(pointsData, currentMcdo);
+  _buildMcdoLayer(pointsData, currentMcdo, currentMcdoInProgress);
   _buildParcoursLayer(parcoursData, currentMcdo);
 }
 
-function _buildMcdoLayer(geojsonData, currentMcdo) {
+function _buildMcdoLayer(geojsonData, currentMcdo, currentMcdoInProgress = false) {
   _markerIndex.clear();
 
   _mcdoLayer = L.geoJSON(geojsonData, {
@@ -145,7 +148,7 @@ function _buildMcdoLayer(geojsonData, currentMcdo) {
       } else if (ordre === 1500) {
         icon = createSpecialIcon("🏆", "#ef4444", "ARRIVÉE");
       } else {
-        icon = createMarkerIcon(color, index === currentMcdo);
+        icon = createMarkerIcon(color, index === currentMcdo, index === currentMcdo && currentMcdoInProgress);
       }
 
       const marker = L.marker(latlng, {
@@ -216,13 +219,13 @@ export function toggleParcours() {
 export function isMcdoVisible()     { return _mcdoVisible; }
 export function isParcoursVisible() { return _parcoursVisible; }
 
-export function updateMarkerColors(currentMcdo) {
+export function updateMarkerColors(currentMcdo, currentMcdoInProgress = false) {
   if (!_mcdoLayer) return;
 
   _markerIndex.forEach(({ marker, index }, id) => {
     if (index === 1 || index === 1500) return;
     const color = getMarkerColor(index, currentMcdo);
-    const icon  = createMarkerIcon(color, index === currentMcdo);
+    const icon  = createMarkerIcon(color, index === currentMcdo, index === currentMcdo && currentMcdoInProgress);
     marker.setIcon(icon);
   });
 }
