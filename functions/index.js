@@ -17,6 +17,19 @@ const MAX_PLAUSIBLE_KMH = 200;
 // Demi-vie de la moyenne mobile exponentielle du rythme (km/jour lissé).
 const PACE_HALF_LIFE_MINUTES = 20;
 
+// Historique du tracé réel : un nouveau point n'est enregistré que tous les
+// BREADCRUMB_MIN_METERS parcourus (pas à chaque écriture GPS), pour garder un volume
+// de stockage/lecture raisonnable sur 365 jours.
+const BREADCRUMB_MIN_METERS = 75;
+// Ancrage des "semaines" de sharding de l'historique (1er septembre 2026, début du tour).
+const TOUR_START_MS = Date.UTC(2026, 8, 1);
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+function historyWeekKey(ms) {
+  const index = Math.max(0, Math.floor((ms - TOUR_START_MS) / WEEK_MS));
+  return `w${index}`;
+}
+
 let pointsByOrdreCache = null;
 
 async function getPointsByOrdre() {
@@ -97,9 +110,34 @@ function updatePace(statusData, position, now) {
   };
 }
 
+// Enregistre un point du tracé réel (historique GPS) dans un doc "hebdomadaire"
+// (tracking_history/w{N}) uniquement si le véhicule a parcouru au moins
+// BREADCRUMB_MIN_METERS depuis le dernier point enregistré. Écrit `lastBreadcrumbPosition`
+// dans `update` (fusionné avec project/status) pour se souvenir du dernier point posé.
+// Retourne une Promise (résolue immédiatement si rien à écrire) à attendre par l'appelant.
+function updateBreadcrumbHistory(statusData, position, now, update) {
+  const last = statusData.lastBreadcrumbPosition;
+
+  if (last) {
+    const distanceMeters = haversineMeters(last, position);
+    if (distanceMeters < BREADCRUMB_MIN_METERS) return Promise.resolve();
+  }
+
+  update.lastBreadcrumbPosition = { lat: position.lat, lng: position.lng };
+
+  const weekKey = historyWeekKey(now);
+  return db.collection("tracking_history").doc(weekKey).set(
+    // Firestore n'autorise pas les tableaux imbriqués dans arrayUnion, d'où l'objet {lat,lng}
+    // plutôt qu'une paire [lat,lng].
+    { points: admin.firestore.FieldValue.arrayUnion({ lat: position.lat, lng: position.lng }) },
+    { merge: true }
+  );
+}
+
 // Se déclenche à chaque écriture de position par l'APK de tracking.
 // 1) Met à jour le rythme réel lissé (indépendant des validations de McDo).
-// 2) Fait évoluer project/status.currentMcdo (le même champ que l'admin modifie
+// 2) Enregistre un point d'historique du tracé réel tous les BREADCRUMB_MIN_METERS.
+// 3) Fait évoluer project/status.currentMcdo (le même champ que l'admin modifie
 //    aujourd'hui à la main) : entrée dans les 200m + 2 min de présence -> "en cours",
 //    sortie de la zone -> validé, currentMcdo += 1.
 exports.checkMcdoPerimeter = onDocumentWritten(
@@ -116,17 +154,24 @@ exports.checkMcdoPerimeter = onDocumentWritten(
     const statusData = statusSnap.data() || {};
 
     const update = updatePace(statusData, position, now);
+    const historyWrite = updateBreadcrumbHistory(statusData, position, now, update);
 
     const currentMcdo = statusData.currentMcdo ?? 1;
     if (currentMcdo >= TOTAL_MCDO) {
-      if (Object.keys(update).length) await statusRef.set(update, { merge: true });
+      await Promise.all([
+        Object.keys(update).length ? statusRef.set(update, { merge: true }) : null,
+        historyWrite,
+      ]);
       return;
     }
 
     const pointsByOrdre = await getPointsByOrdre();
     const targetPoint = pointsByOrdre.get(currentMcdo);
     if (!targetPoint) {
-      if (Object.keys(update).length) await statusRef.set(update, { merge: true });
+      await Promise.all([
+        Object.keys(update).length ? statusRef.set(update, { merge: true }) : null,
+        historyWrite,
+      ]);
       return;
     }
 
@@ -153,8 +198,9 @@ exports.checkMcdoPerimeter = onDocumentWritten(
       }
     }
 
-    if (Object.keys(update).length) {
-      await statusRef.set(update, { merge: true });
-    }
+    await Promise.all([
+      Object.keys(update).length ? statusRef.set(update, { merge: true }) : null,
+      historyWrite,
+    ]);
   }
 );

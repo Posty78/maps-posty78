@@ -2,9 +2,11 @@ import { CONFIG }                          from "./config.js";
 import { initFirebase, startRealtimeListener } from "./firebase.js";
 import { initMap }                         from "./map.js";
 import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js";
+import { initHistory }                     from "./history.js";
 import {
   updateProgressUI,
   bindLayerButtons,
+  bindInfosButton,
   bindSearchUI,
   bindLocateButton,
   hideLoader,
@@ -23,8 +25,10 @@ async function bootstrap() {
     toggleParcours();
 
     startRealtimeListener(CONFIG.firestore);
+    initHistory();
 
     bindLayerButtons();
+    bindInfosButton();
     bindSearchUI();
     bindLocateButton();
 
