@@ -15,11 +15,33 @@ const MOIS = [
   "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
 ];
 
-function dateEstimee(ordre) {
+function formatDate(date) {
+  return `${date.getDate()} ${MOIS[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// Estimation naïve (avant le vrai départ, ou tant qu'aucun rythme réel n'est mesuré) :
+// répartition linéaire des 365 jours sur les 1500 points.
+function dateEstimeeNaive(ordre) {
   const joursEcoules = Math.floor((ordre / CONFIG.totalMcdo) * TOTAL_JOURS);
   const date = new Date(DEPART_DATE);
   date.setDate(date.getDate() + joursEcoules);
-  return `${date.getDate()} ${MOIS[date.getMonth()]} ${date.getFullYear()}`;
+  return formatDate(date);
+}
+
+// Estimation réelle : rythme lissé (km/jour, moyenne mobile exponentielle calculée
+// côté serveur à partir du mouvement GPS réel) appliqué aux km restants jusqu'au point.
+function dateEstimee(ordre, cumulKm) {
+  const pace = window.__smoothedPaceKmPerDay;
+  const cumulKmActuel = window.__currentMcdoCumulKm;
+
+  if (typeof pace === "number" && pace > 0 && typeof cumulKmActuel === "number" && typeof cumulKm === "number") {
+    const kmRestants = cumulKm - cumulKmActuel;
+    const joursRestants = kmRestants / pace;
+    const date = new Date(Date.now() + joursRestants * 86_400_000);
+    return formatDate(date);
+  }
+
+  return dateEstimeeNaive(ordre);
 }
 
 // ─── Formatage ─────────────────────────────────────────────────────────────────
@@ -65,7 +87,7 @@ export function buildPopup(layer, props) {
     : "-";
 
   const dateText = ordre !== null
-    ? dateEstimee(ordre)
+    ? dateEstimee(ordre, cumul)
     : "-";
 
   panel.innerHTML = `

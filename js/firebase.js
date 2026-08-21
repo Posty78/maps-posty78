@@ -30,9 +30,12 @@ export function startRealtimeListener(firestoreConfig) {
     const data = snapshot.data();
     const value = data?.[field] ?? 0;
     const inProgress = data?.currentMcdoInProgress ?? false;
+    const smoothedPaceKmPerDay = typeof data?.smoothedPaceKmPerDay === "number" ? data.smoothedPaceKmPerDay : null;
 
     window.dispatchEvent(
-      new CustomEvent("mcdo:update", { detail: { currentMcdo: value, currentMcdoInProgress: inProgress } })
+      new CustomEvent("mcdo:update", {
+        detail: { currentMcdo: value, currentMcdoInProgress: inProgress, smoothedPaceKmPerDay },
+      })
     );
   });
 }
