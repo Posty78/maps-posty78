@@ -1,0 +1,49 @@
+name: Synchronise vers 365-posty78
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout maps-posty78
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Checkout 365-posty78
+        uses: actions/checkout@v4
+        with:
+          repository: Posty78/365-posty78
+          token: ${{ secrets.HUB_SYNC_TOKEN }}
+          path: hub
+
+      - name: Copie vers hub/maps/
+        run: |
+          rsync -a --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='index.html' \
+            --exclude='CNAME' \
+            --exclude='.nojekyll' \
+            --exclude='.gitignore' \
+            --exclude='.firebaserc' \
+            --exclude='firebase.json' \
+            --exclude='firestore.rules' \
+            --exclude='functions' \
+            source/ hub/maps/
+
+      - name: Commit et push si changement
+        run: |
+          cd hub
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add maps/
+          if git diff --cached --quiet; then
+            echo "Rien a synchroniser."
+            exit 0
+          fi
+          git commit -m "Sync auto depuis maps-posty78@${GITHUB_SHA::7}"
+          git push
