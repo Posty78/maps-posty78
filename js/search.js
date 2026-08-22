@@ -1,4 +1,4 @@
-import { CONFIG }             from "./config.js?v=3";
+import { CONFIG }             from "./config.js?v=4";
 import { getAllMcdoFeatures } from "./layers.js?v=2";
 import { flyTo }              from "./map.js?v=2";
 import { buildPopup }         from "./popup.js?v=2";
