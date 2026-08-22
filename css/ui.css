@@ -111,8 +111,9 @@
 
 .progress-distance {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
   padding-top: 10px;
   border-top: 1px solid rgba(0,204,68,0.15);
 }
@@ -636,7 +637,7 @@
   #progress-count, #villes-count { font-size: 13px; }
   #progress-percent, #villes-percent { font-size: 10px; }
   .progress-bar { height: 3px; margin-bottom: 3px; }
-  .progress-distance { padding-top: 3px; flex-direction: column; align-items: flex-start; gap: 1px; }
+  .progress-distance { padding-top: 3px; gap: 1px; }
   .progress-distance__label { font-size: 9px; }
   .progress-distance__value { font-size: 10px; }
 
