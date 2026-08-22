@@ -1,4 +1,4 @@
-import { searchByCoords, openSearch } from "./search.js?v=3";
+import { searchByCoords, openSearch } from "./search.js?v=4";
 
 export function locateUser() {
   if (!("geolocation" in navigator)) {
