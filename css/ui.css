@@ -338,7 +338,7 @@
    carte 100% degagee meme quand tout le reste (Infos, boutons) est masque. */
 .mini-toggle {
   position: fixed;
-  top: 20px;
+  bottom: 20px;
   right: 20px;
   z-index: 500;
   width: 36px;
@@ -686,12 +686,11 @@
     padding: 0 16px;
   }
 
-  /* Repositionne le mini-toggle a mi-hauteur sur le cote : en haut il chevaucherait
-     la barre de recherche (pleine largeur), en bas la pile de boutons Afficher/Masquer. */
+  /* En bas a droite comme sur desktop, mais au-dessus de la pile de boutons
+     Afficher/Masquer (sinon chevauchement, la pile prenant toute la largeur). */
   .mini-toggle {
-    top: 50%;
+    bottom: 240px;
     right: 8px;
-    transform: translateY(-50%);
   }
 
   /* Panneau recherche */
