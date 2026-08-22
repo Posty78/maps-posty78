@@ -1,8 +1,9 @@
-import { CONFIG }                          from "./config.js?v=2";
+import { CONFIG }                          from "./config.js?v=3";
 import { initFirebase, startRealtimeListener } from "./firebase.js?v=2";
 import { initMap }                         from "./map.js?v=2";
 import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js?v=2";
 import { initHistory }                     from "./history.js?v=2";
+import { initLivePosition }                from "./live-position.js?v=2";
 import {
   updateProgressUI,
   bindLayerButtons,
@@ -27,6 +28,7 @@ async function bootstrap() {
 
     startRealtimeListener(CONFIG.firestore);
     initHistory(true);
+    initLivePosition();
 
     bindLayerButtons();
     bindInfosButton();

@@ -50,6 +50,18 @@ export const CONFIG = {
     },
   },
 
+  livePosition: {
+    collection: "tracking",
+    document: "live",
+    style: {
+      radius: 8,
+      color: "#ffffff",
+      weight: 3,
+      fillColor: "#4285f4",
+      fillOpacity: 1,
+    },
+  },
+
   history: {
     collection: "tracking_history",
     // Doit rester identique à TOUR_START_MS / WEEK_MS dans functions/index.js.

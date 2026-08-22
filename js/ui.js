@@ -1,4 +1,4 @@
-import { CONFIG }                                  from "./config.js?v=2";
+import { CONFIG }                                  from "./config.js?v=3";
 import { toggleMcdo, toggleParcours, getAllMcdoFeatures, getRawFeatures } from "./layers.js?v=2";
 import { toggleHistory }                           from "./history.js?v=2";
 import { openSearch, closeSearch, searchByQuery }  from "./search.js?v=2";
