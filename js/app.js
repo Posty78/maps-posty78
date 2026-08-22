@@ -20,12 +20,12 @@ async function bootstrap() {
 
     await loadLayers(0);
 
-    // Afficher les deux couches dès le départ
+    // Afficher les trois couches dès le départ (comme les 3 autres boutons Afficher/Masquer)
     toggleMcdo();
     toggleParcours();
 
     startRealtimeListener(CONFIG.firestore);
-    initHistory();
+    initHistory(true);
 
     bindLayerButtons();
     bindInfosButton();

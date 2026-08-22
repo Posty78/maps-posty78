@@ -53,7 +53,8 @@ function rebuildLayer() {
   }
 }
 
-export async function initHistory() {
+export async function initHistory(startVisible = false) {
+  _visible = startVisible;
   const db = getDb();
   const { collection } = CONFIG.history;
   const currentIndex = weekIndexFor(Date.now());

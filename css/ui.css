@@ -248,6 +248,8 @@
   align-items: center;
 }
 
+#top-controls.is-hidden { display: none; }
+
 #search-bar {
   background: rgba(0,0,0,0.70);
   border: 2px solid var(--accent);
