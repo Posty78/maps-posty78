@@ -1,7 +1,7 @@
-import { CONFIG }             from "./config.js?v=1";
-import { getAllMcdoFeatures } from "./layers.js?v=1";
-import { flyTo }              from "./map.js?v=1";
-import { buildPopup }         from "./popup.js?v=1";
+import { CONFIG }             from "./config.js?v=2";
+import { getAllMcdoFeatures } from "./layers.js?v=2";
+import { flyTo }              from "./map.js?v=2";
+import { buildPopup }         from "./popup.js?v=2";
 
 function toRad(deg) { return deg * (Math.PI / 180); }
 
