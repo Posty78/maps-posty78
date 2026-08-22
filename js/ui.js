@@ -151,9 +151,15 @@ export function bindToggleButtonsButton() {
   const floatingControls = document.getElementById("floating-controls");
   if (!btnToggleButtons || !floatingControls) return;
 
+  // Le bouton oeil vit dans le meme groupe que les 4 autres (#floating-controls) mais
+  // ne doit jamais se masquer lui-meme : on cache individuellement les autres boutons
+  // (.fab), pas le conteneur entier.
+  const otherButtons = Array.from(floatingControls.querySelectorAll(".fab"));
+
   btnToggleButtons.classList.add("is-active");
   btnToggleButtons.addEventListener("click", () => {
-    const isNowHidden = floatingControls.classList.toggle("is-hidden");
+    const isNowHidden = !otherButtons[0]?.classList.contains("is-hidden");
+    otherButtons.forEach((btn) => btn.classList.toggle("is-hidden", isNowHidden));
     btnToggleButtons.classList.toggle("is-active", !isNowHidden);
     btnToggleButtons.setAttribute("aria-pressed", String(!isNowHidden));
   });
