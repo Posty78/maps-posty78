@@ -1,6 +1,6 @@
-import { getMap }     from "./map.js";
-import { buildPopup } from "./popup.js";
-import { CONFIG }     from "./config.js";
+import { getMap }     from "./map.js?v=1";
+import { buildPopup } from "./popup.js?v=1";
+import { CONFIG }     from "./config.js?v=1";
 
 let _mcdoLayer     = null;
 let _parcoursLayer = null;

@@ -1,8 +1,8 @@
-import { CONFIG }                          from "./config.js";
-import { initFirebase, startRealtimeListener } from "./firebase.js";
-import { initMap }                         from "./map.js";
-import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js";
-import { initHistory }                     from "./history.js";
+import { CONFIG }                          from "./config.js?v=1";
+import { initFirebase, startRealtimeListener } from "./firebase.js?v=1";
+import { initMap }                         from "./map.js?v=1";
+import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js?v=1";
+import { initHistory }                     from "./history.js?v=1";
 import {
   updateProgressUI,
   bindLayerButtons,
@@ -11,7 +11,7 @@ import {
   bindSearchUI,
   bindLocateButton,
   hideLoader,
-}                                          from "./ui.js";
+}                                          from "./ui.js?v=1";
 
 async function bootstrap() {
   try {

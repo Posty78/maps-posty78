@@ -1,8 +1,8 @@
-import { CONFIG }                                  from "./config.js";
-import { toggleMcdo, toggleParcours, getAllMcdoFeatures, getRawFeatures } from "./layers.js";
-import { toggleHistory }                           from "./history.js";
-import { openSearch, closeSearch, searchByQuery }  from "./search.js";
-import { locateUser }                              from "./geolocation.js";
+import { CONFIG }                                  from "./config.js?v=1";
+import { toggleMcdo, toggleParcours, getAllMcdoFeatures, getRawFeatures } from "./layers.js?v=1";
+import { toggleHistory }                           from "./history.js?v=1";
+import { openSearch, closeSearch, searchByQuery }  from "./search.js?v=1";
+import { locateUser }                              from "./geolocation.js?v=1";
 
 const elCount     = document.getElementById("progress-count");
 const elPercent   = document.getElementById("progress-percent");
