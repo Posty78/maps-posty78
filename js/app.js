@@ -7,6 +7,7 @@ import {
   updateProgressUI,
   bindLayerButtons,
   bindInfosButton,
+  bindToggleButtonsButton,
   bindSearchUI,
   bindLocateButton,
   hideLoader,
@@ -29,6 +30,7 @@ async function bootstrap() {
 
     bindLayerButtons();
     bindInfosButton();
+    bindToggleButtonsButton();
     bindSearchUI();
     bindLocateButton();
 

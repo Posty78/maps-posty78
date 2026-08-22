@@ -11,10 +11,11 @@ const elDistance  = document.getElementById("progress-distance");
 const elVillesCount   = document.getElementById("villes-count");
 const elVillesPercent = document.getElementById("villes-percent");
 const elVillesBar     = document.getElementById("villes-bar-fill");
-const btnMcdo       = document.getElementById("btn-mcdo");
-const btnParcours   = document.getElementById("btn-parcours");
-const btnHistorique = document.getElementById("btn-historique");
-const btnInfos      = document.getElementById("btn-infos");
+const btnMcdo          = document.getElementById("btn-mcdo");
+const btnParcours      = document.getElementById("btn-parcours");
+const btnHistorique    = document.getElementById("btn-historique");
+const btnInfos         = document.getElementById("btn-infos");
+const btnToggleButtons = document.getElementById("btn-toggle-buttons");
 const btnSearch   = document.getElementById("btn-search");
 const searchInput = document.getElementById("search-input");
 const searchForm  = document.getElementById("search-form");
@@ -133,6 +134,18 @@ export function bindInfosButton() {
     if (isNowHidden) closeSearch();
     btnInfos.classList.toggle("is-active", !isNowHidden);
     btnInfos.setAttribute("aria-pressed", String(!isNowHidden));
+  });
+}
+
+export function bindToggleButtonsButton() {
+  const floatingControls = document.getElementById("floating-controls");
+  if (!btnToggleButtons || !floatingControls) return;
+
+  btnToggleButtons.classList.add("is-active");
+  btnToggleButtons.addEventListener("click", () => {
+    const isNowHidden = floatingControls.classList.toggle("is-hidden");
+    btnToggleButtons.classList.toggle("is-active", !isNowHidden);
+    btnToggleButtons.setAttribute("aria-pressed", String(!isNowHidden));
   });
 }
 
