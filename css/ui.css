@@ -614,29 +614,31 @@
   /* Cacher zoom Leaflet */
   .leaflet-control-zoom { display: none !important; }
 
-  /* HUD en bas à gauche - encadres reduits (~1/3) pour liberer l'ecran mobile */
+  /* HUD a gauche, centre verticalement : loin de la barre de recherche (haut) ET
+     des boutons (bas), qui sont deux blocs positionnes independamment et pouvaient
+     se percuter au milieu de l'ecran selon la hauteur du telephone. */
   #hud {
-    top: 220px;
+    top: 50%;
     bottom: auto;
-    left: 50%;
+    left: 8px;
     right: auto;
-    transform: translateX(-50%);
-    gap: 12px;
-    max-width: 160px;
+    transform: translateY(-50%);
+    gap: 8px;
+    max-width: 130px;
   }
 
   .legend { display: none; }
   .info-card { display: none; }
 
-  .progress-card { min-width: unset; width: 100%; padding: 6px 8px; }
-  .progress-card__label { font-size: 11px; margin-bottom: 3px; }
-  .progress-top { margin-bottom: 4px; gap: 4px; }
-  #progress-count, #villes-count { font-size: 15px; }
-  #progress-percent, #villes-percent { font-size: 11px; }
-  .progress-bar { height: 4px; margin-bottom: 4px; }
-  .progress-distance { padding-top: 4px; }
-  .progress-distance__label { font-size: 10px; }
-  .progress-distance__value { font-size: 11px; }
+  .progress-card { min-width: unset; width: 100%; padding: 5px 7px; }
+  .progress-card__label { font-size: 10px; margin-bottom: 2px; }
+  .progress-top { margin-bottom: 3px; gap: 3px; }
+  #progress-count, #villes-count { font-size: 13px; }
+  #progress-percent, #villes-percent { font-size: 10px; }
+  .progress-bar { height: 3px; margin-bottom: 3px; }
+  .progress-distance { padding-top: 3px; flex-direction: column; align-items: flex-start; gap: 1px; }
+  .progress-distance__label { font-size: 9px; }
+  .progress-distance__value { font-size: 10px; }
 
   /* Recherche en haut pleine largeur */
   #top-controls {
@@ -667,10 +669,10 @@
     justify-content: center;
   }
 
-  /* Boutons flottants en bas pleine largeur */
+  /* Boutons flottants en bas pleine largeur, reduits pour liberer de l'espace */
   #floating-controls {
-    bottom: 16px;
-    gap: 8px;
+    bottom: 12px;
+    gap: 6px;
     flex-direction: column;
     left: 12px;
     right: 12px;
@@ -679,11 +681,20 @@
   }
 
   .fab {
-    height: 48px;
-    font-size: 13px;
+    height: 38px;
+    font-size: 11px;
     min-width: unset;
     width: 100%;
-    padding: 0 16px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .fab__icon { font-size: 18px; }
+
+  .mini-toggle {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
   }
 
   /* Panneau recherche */
