@@ -31,10 +31,11 @@ export function startRealtimeListener(firestoreConfig) {
     const value = data?.[field] ?? 0;
     const inProgress = data?.currentMcdoInProgress ?? false;
     const smoothedPaceKmPerDay = typeof data?.smoothedPaceKmPerDay === "number" ? data.smoothedPaceKmPerDay : null;
+    const realDistanceKm = typeof data?.realDistanceKm === "number" ? data.realDistanceKm : null;
 
     window.dispatchEvent(
       new CustomEvent("mcdo:update", {
-        detail: { currentMcdo: value, currentMcdoInProgress: inProgress, smoothedPaceKmPerDay },
+        detail: { currentMcdo: value, currentMcdoInProgress: inProgress, smoothedPaceKmPerDay, realDistanceKm },
       })
     );
   });

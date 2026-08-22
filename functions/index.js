@@ -104,9 +104,16 @@ function updatePace(statusData, position, now) {
     smoothed = alpha * instantaneousPaceKmPerDay + (1 - alpha) * previous;
   }
 
+  // Odomètre réel : accumule chaque déplacement valide (même filtre anti-bruit/glitch
+  // que le calcul de rythme ci-dessus), indépendamment de la progression sur le tracé.
+  // Alimente "Distance parcourue" sur le site une fois que de vraies positions arrivent.
+  const previousDistanceKm = statusData.realDistanceKm ?? 0;
+  const realDistanceKm = previousDistanceKm + distanceMeters / 1000;
+
   return {
     lastPacePosition: { lat: position.lat, lng: position.lng, timestamp: now },
     smoothedPaceKmPerDay: smoothed,
+    realDistanceKm,
   };
 }
 
@@ -135,7 +142,8 @@ function updateBreadcrumbHistory(statusData, position, now, update) {
 }
 
 // Se déclenche à chaque écriture de position par l'APK de tracking.
-// 1) Met à jour le rythme réel lissé (indépendant des validations de McDo).
+// 1) Met à jour le rythme réel lissé + l'odomètre réel (indépendant des validations
+//    de McDo, alimente "Distance parcourue" une fois de vraies positions reçues).
 // 2) Enregistre un point d'historique du tracé réel tous les BREADCRUMB_MIN_METERS.
 // 3) Fait évoluer project/status.currentMcdo (le même champ que l'admin modifie
 //    aujourd'hui à la main) : entrée dans les 200m + 2 min de présence -> "en cours",
