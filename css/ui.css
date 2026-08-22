@@ -616,11 +616,13 @@
 
   /* HUD en bas à gauche - encadres reduits (~1/3) pour liberer l'ecran mobile */
   #hud {
-    top: auto;
-    bottom: 130px;
-    left: 8px;
-    gap: 4px;
-    max-width: 130px;
+    top: 220px;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    gap: 12px;
+    max-width: 160px;
   }
 
   .legend { display: none; }
