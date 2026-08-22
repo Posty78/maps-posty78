@@ -22,10 +22,16 @@ async function geocode(query) {
   const res  = await fetch(url, {
     headers: { "Accept-Language": "fr", "User-Agent": "maps.posty78.fr" },
   });
-  const data = await res.json();
+  if (!res.ok) return null;
 
-  if (!data.length) return null;
-  return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+  const data = await res.json();
+  if (!Array.isArray(data) || !data.length) return null;
+
+  const lat = parseFloat(data[0].lat);
+  const lng = parseFloat(data[0].lon);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+
+  return { lat, lng };
 }
 
 function findNearest(point, n = CONFIG.search.maxResults) {
