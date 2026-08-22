@@ -331,6 +331,34 @@
 .fab.is-active { color: var(--accent); border-color: var(--accent); }
 .fab__icon { font-size: 26px; line-height: 1; }
 
+#floating-controls.is-hidden { display: none; }
+
+/* Petit bouton toujours visible (independant de #floating-controls) pour
+   masquer/afficher les 4 boutons Afficher/Masquer eux-memes : permet une vue
+   carte 100% degagee meme quand tout le reste (Infos, boutons) est masque. */
+.mini-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 500;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.85);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+.mini-toggle:hover { color: var(--accent); }
+.mini-toggle.is-active { color: var(--accent); }
+
 /* ─── Panneau recherche ──────────────────────────────────────────────────── */
 #search-panel {
   position: absolute;
@@ -656,6 +684,14 @@
     min-width: unset;
     width: 100%;
     padding: 0 16px;
+  }
+
+  /* Repositionne le mini-toggle a mi-hauteur sur le cote : en haut il chevaucherait
+     la barre de recherche (pleine largeur), en bas la pile de boutons Afficher/Masquer. */
+  .mini-toggle {
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
   }
 
   /* Panneau recherche */
