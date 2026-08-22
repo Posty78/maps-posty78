@@ -9,11 +9,13 @@ service cloud.firestore {
       allow write: if true;
     }
     // Position live de l'APK de tracking : lecture publique (mini-map overlay + maps.posty78.fr).
-    // L'écriture par la Cloud Function (Admin SDK) contourne toujours les règles ; l'écriture
-    // cliente depuis l'APK n'est pas encore autorisée ici (mécanisme d'auth de l'APK à définir).
+    // Ecriture autorisee a tout client authentifie (l'APK se connecte en anonyme au demarrage,
+    // aucun compte/mot de passe requis) ; seul le champ position est modifiable, pas currentMcdo
+    // ni les autres champs geres par la Cloud Function.
     match /tracking/{document} {
       allow read: if true;
-      allow write: if false;
+      allow write: if request.auth != null
+        && request.resource.data.keys().hasOnly(["lat", "lng", "updatedAt", "deviceId"]);
     }
     // Historique du tracé réel (points GPS accumulés), sharding hebdomadaire. Lecture publique
     // pour afficher la 2e polyligne sur maps.posty78.fr ; écriture réservée à la Cloud Function.
