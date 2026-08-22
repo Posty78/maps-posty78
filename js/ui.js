@@ -64,7 +64,7 @@ function updateVillesUI(currentMcdo) {
   if (elVillesBar)     elVillesBar.style.width     = `${percent}%`;
 }
 
-export function updateProgressUI(currentMcdo) {
+export function updateProgressUI(currentMcdo, realDistanceKm) {
   const total   = CONFIG.totalMcdo;
   const percent = ((currentMcdo / total) * 100).toFixed(1);
 
@@ -76,20 +76,29 @@ export function updateProgressUI(currentMcdo) {
 
   updateVillesUI(currentMcdo);
 
-  // Distance parcourue - on cherche le Macdo actuel dans le GeoJSON
+  // cumul_km du dernier McDo valide : reference utilisee par "date estimee" (popup.js),
+  // un calcul base sur le trace, distinct de l'affichage "Distance parcourue" ci-dessous.
   if (currentMcdo > 0) {
     const features = getAllMcdoFeatures();
     const id = "MC" + String(currentMcdo).padStart(4, "0");
     const found = features.find((f) => f.id === id);
     const cumulKm = found?.properties?.cumul_km;
     window.__currentMcdoCumulKm = typeof cumulKm === "number" ? cumulKm : null;
-
-    if (elDistance) {
-      elDistance.textContent = typeof cumulKm === "number" ? `${cumulKm.toLocaleString("fr-FR")} km` : "- km";
-    }
   } else {
     window.__currentMcdoCumulKm = null;
-    if (elDistance) elDistance.textContent = "0 km";
+  }
+
+  // "Distance parcourue" affichee : odometre GPS reel (project/status.realDistanceKm,
+  // alimente par l'APK) des qu'il existe ; sinon repli sur le cumul_km du trace prevu
+  // jusqu'au dernier McDo valide (comportement historique, tant que l'APK n'existe pas).
+  if (elDistance) {
+    if (typeof realDistanceKm === "number") {
+      elDistance.textContent = `${realDistanceKm.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} km`;
+    } else if (typeof window.__currentMcdoCumulKm === "number") {
+      elDistance.textContent = `${window.__currentMcdoCumulKm.toLocaleString("fr-FR")} km`;
+    } else {
+      elDistance.textContent = "0 km";
+    }
   }
 }
 
