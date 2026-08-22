@@ -1,7 +1,7 @@
 import { getDb } from "./firebase.js?v=2";
 import { doc, getDoc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getMap } from "./map.js?v=2";
+import { getMap } from "./map.js?v=3";
 import { CONFIG } from "./config.js?v=6";
 
 // Point vert "position actuelle" sur la grosse carte, comme le point bleu de la
