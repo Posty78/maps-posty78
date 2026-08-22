@@ -92,8 +92,9 @@ export function updateProgressUI(currentMcdo) {
 }
 
 export function bindLayerButtons() {
-  if (btnMcdo)     btnMcdo.classList.add("is-active");
-  if (btnParcours) btnParcours.classList.add("is-active");
+  if (btnMcdo)       btnMcdo.classList.add("is-active");
+  if (btnParcours)   btnParcours.classList.add("is-active");
+  if (btnHistorique) btnHistorique.classList.add("is-active");
 
   if (btnMcdo) {
     btnMcdo.addEventListener("click", () => {
@@ -122,11 +123,14 @@ export function bindLayerButtons() {
 
 export function bindInfosButton() {
   const hud = document.getElementById("hud");
+  const topControls = document.getElementById("top-controls");
   if (!btnInfos || !hud) return;
 
   btnInfos.classList.add("is-active");
   btnInfos.addEventListener("click", () => {
     const isNowHidden = hud.classList.toggle("is-hidden");
+    if (topControls) topControls.classList.toggle("is-hidden", isNowHidden);
+    if (isNowHidden) closeSearch();
     btnInfos.classList.toggle("is-active", !isNowHidden);
     btnInfos.setAttribute("aria-pressed", String(!isNowHidden));
   });
