@@ -56,10 +56,9 @@ export const CONFIG = {
     tourStartMs: Date.UTC(2026, 8, 1),
     weekMs: 7 * 24 * 60 * 60 * 1000,
     style: {
-      color:   "#a855f7",
+      color:   "#3b0764",
       weight:  3,
-      opacity: 0.85,
-      dashArray: "6 6",
+      opacity: 0.95,
     },
   },
 
