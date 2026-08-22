@@ -331,16 +331,14 @@
 .fab.is-active { color: var(--accent); border-color: var(--accent); }
 .fab__icon { font-size: 26px; line-height: 1; }
 
-#floating-controls.is-hidden { display: none; }
+/* Masque individuellement les 4 boutons Afficher/Masquer (pas le conteneur entier :
+   le bouton oeil vit dans le meme groupe et doit rester visible/cliquable). */
+#floating-controls .fab.is-hidden { display: none; }
 
-/* Petit bouton toujours visible (independant de #floating-controls) pour
-   masquer/afficher les 4 boutons Afficher/Masquer eux-memes : permet une vue
-   carte 100% degagee meme quand tout le reste (Infos, boutons) est masque. */
+/* Bouton compact, dans le meme groupe que les 4 autres (toujours a droite), pour
+   masquer/afficher ces 4 boutons eux-memes : permet une vue carte 100% degagee. */
 .mini-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 500;
+  flex-shrink: 0;
   width: 36px;
   height: 36px;
   display: flex;
@@ -684,13 +682,6 @@
     min-width: unset;
     width: 100%;
     padding: 0 16px;
-  }
-
-  /* En bas a droite comme sur desktop, mais au-dessus de la pile de boutons
-     Afficher/Masquer (sinon chevauchement, la pile prenant toute la largeur). */
-  .mini-toggle {
-    bottom: 240px;
-    right: 8px;
   }
 
   /* Panneau recherche */
