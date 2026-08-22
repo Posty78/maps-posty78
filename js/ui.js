@@ -20,11 +20,12 @@ const btnSearch   = document.getElementById("btn-search");
 const searchInput = document.getElementById("search-input");
 const searchForm  = document.getElementById("search-form");
 
-// Extrait le nom de commune depuis l'adresse (dernier segment après la dernière virgule)
-function communeFromAdresse(adresse) {
-  if (!adresse) return null;
-  const parts = adresse.split(",");
-  return parts[parts.length - 1].trim().toLowerCase();
+// Commune officielle (reverse-geocodee Google, verifiee point par point) precalculee
+// dans le geojson lui-meme : bien plus fiable que parser le champ "adresse" en texte
+// libre (formats incoherents d'un point a l'autre, voir l'audit complet du 22/08/2026).
+function communeOf(properties) {
+  if (!properties?.commune) return null;
+  return properties.commune.trim().toLowerCase();
 }
 
 let _totalVilles = null;
@@ -33,7 +34,7 @@ function getTotalVilles(features) {
   if (_totalVilles !== null) return _totalVilles;
   const set = new Set();
   features.forEach((f) => {
-    const commune = communeFromAdresse(f.properties?.adresse);
+    const commune = communeOf(f.properties);
     if (commune) set.add(commune);
   });
   _totalVilles = set.size;
@@ -50,7 +51,7 @@ function updateVillesUI(currentMcdo) {
   features.forEach((f) => {
     const index = parseInt(String(f.id).replace("MC", ""), 10);
     if (index <= currentMcdo) {
-      const commune = communeFromAdresse(f.properties?.adresse);
+      const commune = communeOf(f.properties);
       if (commune) visited.add(commune);
     }
   });
