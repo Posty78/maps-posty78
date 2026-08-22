@@ -159,6 +159,19 @@ a {
   color: var(--text-secondary) !important;
 }
 
+/* Point de position GPS en direct : respiration douce pour rester bien visible
+   même au milieu des marqueurs McDo (vert distinct, pas confondu avec le bleu
+   "à venir" des McDo non visités). */
+@keyframes live-position-breathe {
+  0%, 100% { opacity: 1;    transform: scale(1);   }
+  50%      { opacity: 0.55; transform: scale(1.35); }
+}
+.live-position-marker {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: live-position-breathe 1.8s ease-in-out infinite;
+}
+
 @media (max-width: 640px) {
   :root {
     font-size: 13px;

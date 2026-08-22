@@ -53,12 +53,19 @@ export const CONFIG = {
   livePosition: {
     collection: "tracking",
     document: "live",
+    // Interroge la position toutes les 20s au lieu d'un listener temps réel (5s,
+    // le rythme d'écriture de l'APK) : sur un site avec audience, un listener
+    // temps réel facture une lecture Firestore à CHAQUE mise à jour à CHAQUE
+    // visiteur qui garde la page ouverte - un simple poll plafonne ce coût à un
+    // niveau fixe par visiteur, indépendant du rythme réel du GPS.
+    pollIntervalMs: 20_000,
     style: {
       radius: 8,
       color: "#ffffff",
       weight: 3,
-      fillColor: "#4285f4",
+      fillColor: "#00cc44",
       fillOpacity: 1,
+      className: "live-position-marker",
     },
   },
 
