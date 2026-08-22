@@ -113,11 +113,22 @@ function showSearchError(msg) {
     resultsContainer.innerHTML = `<p class="search-error">${msg}</p>`;
 }
 
+// Si l'utilisateur lance une nouvelle recherche avant que la precedente n'ait
+// fini de repondre (appel reseau geocode), rien n'empechait la reponse la plus
+// lente d'ecraser en arrivant en dernier les resultats/la position d'une
+// recherche plus recente - d'ou des recherches qui "reviennent en arriere" ou
+// pointent vers un lieu perime. On identifie chaque recherche par un jeton
+// croissant et on ignore silencieusement toute reponse qui n'est plus la plus
+// recente au moment ou elle arrive.
+let _searchToken = 0;
+
 export async function searchByQuery(query) {
   if (!query.trim()) return;
+  const myToken = ++_searchToken;
   showSearchLoader();
 
   const point = await geocode(query);
+  if (myToken !== _searchToken) return; // une recherche plus recente a demarre entre-temps
 
   if (!point) {
     showSearchError("Lieu introuvable. Essayez une ville ou un code postal.");
