@@ -27,8 +27,12 @@ export const CONFIG = {
     zoom:    6,
     minZoom: 5,
     maxZoom: 19,
-    tileUrl: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-    tileAttribution: "",
+    // Tuiles CARTO "Voyager" : gratuites, sans clé, style coloré proche de Google
+    // Maps classique - contrairement à Google Maps JS, aucune facturation liée
+    // au nombre de visites (pas de notion de "map load" facturé).
+    tileUrl: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+    tileAttribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
   },
 
   markerColors: {
