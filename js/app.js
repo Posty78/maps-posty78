@@ -1,6 +1,6 @@
 import { CONFIG }                          from "./config.js?v=6";
 import { initFirebase, startRealtimeListener } from "./firebase.js?v=2";
-import { initMap }                         from "./map.js?v=2";
+import { initMap }                         from "./map.js?v=3";
 import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js?v=2";
 import { initHistory }                     from "./history.js?v=2";
 import { initLivePosition }                from "./live-position.js?v=3";

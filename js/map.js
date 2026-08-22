@@ -22,6 +22,15 @@ export function initMap(elementId, mapConfig) {
     .addTo(_map)
     .setPrefix(mapConfig.tileAttribution);
 
+  // Leaflet mesure la taille du conteneur a l'initialisation et la garde en
+  // cache. Si cette mesure est prise trop tot (loader encore visible, mise en
+  // page pas totalement stable), elle reste figee a une valeur perimee/nulle
+  // et casse tout calcul de projection ensuite (flyTo part n'importe ou ou
+  // plante avec "Invalid LatLng object: NaN, NaN"). On la recale a chaque
+  // vrai changement de taille du conteneur, pas seulement au demarrage.
+  new ResizeObserver(() => _map.invalidateSize())
+    .observe(document.getElementById(elementId));
+
   return _map;
 }
 

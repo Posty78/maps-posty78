@@ -1,4 +1,4 @@
-import { getMap }     from "./map.js?v=2";
+import { getMap }     from "./map.js?v=3";
 import { buildPopup } from "./popup.js?v=2";
 import { CONFIG }     from "./config.js?v=6";
 
