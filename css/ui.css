@@ -620,15 +620,17 @@
   /* Cacher zoom Leaflet */
   .leaflet-control-zoom { display: none !important; }
 
-  /* HUD a gauche, centre verticalement : loin de la barre de recherche (haut) ET
-     des boutons (bas), qui sont deux blocs positionnes independamment et pouvaient
-     se percuter au milieu de l'ecran selon la hauteur du telephone. */
+  /* HUD a gauche, ancre juste sous la barre de recherche (au lieu d'un centrage
+     vertical) : un centrage a 50% se rapprochait trop du bloc de boutons du bas
+     des que celui-ci grandissait (ex. bouton plier/deplier agrandi), avec un
+     risque de superposition variable selon la hauteur de l'ecran. Une position
+     fixe sous la recherche garde un ecart constant avec les deux blocs. */
   #hud {
-    top: 50%;
+    top: 114px;
     bottom: auto;
     left: 8px;
     right: auto;
-    transform: translateY(-50%);
+    transform: none;
     gap: 8px;
     max-width: 130px;
   }
