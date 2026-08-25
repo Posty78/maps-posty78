@@ -27,32 +27,32 @@
   background: rgba(0,0,0,0.70);
   border: 2px solid var(--accent);
   border-radius: var(--radius-md);
-  padding: 18px 20px;
+  padding: 12px 14px;
   pointer-events: auto;
-  min-width: 260px;
+  min-width: 200px;
   backdrop-filter: blur(8px);
 }
 
 .progress-card__label {
   display: block;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: none;
   color: #ffffff;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .progress-top {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 12px;
-  gap: 12px;
+  margin-bottom: 8px;
+  gap: 10px;
 }
 
 #progress-count {
-  font-size: 42px;
+  font-size: 30px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   color: #ffffff;
@@ -62,14 +62,14 @@
 }
 
 #progress-percent {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--accent);
   font-family: var(--font-mono);
 }
 
 #villes-count {
-  font-size: 42px;
+  font-size: 30px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   color: #ffffff;
@@ -79,7 +79,7 @@
 }
 
 #villes-percent {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--accent);
   font-family: var(--font-mono);
@@ -94,11 +94,11 @@
 }
 
 .progress-bar {
-  height: 6px;
+  height: 5px;
   background: rgba(0,204,68,0.1);
   border-radius: 99px;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 #progress-bar-fill {
@@ -113,13 +113,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 3px;
-  padding-top: 10px;
+  gap: 2px;
+  padding-top: 7px;
   border-top: 1px solid rgba(0,204,68,0.15);
 }
 
 .progress-distance__label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -127,7 +127,7 @@
 }
 
 .progress-distance__value {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--accent);
   font-family: var(--font-mono);
@@ -138,26 +138,26 @@
   background: rgba(0,0,0,0.70);
   border: 2px solid var(--accent);
   border-radius: var(--radius-md);
-  padding: 12px 16px;
+  padding: 8px 12px;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   backdrop-filter: blur(8px);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13px;
+  gap: 8px;
+  font-size: 11px;
   font-weight: 500;
   color: #ffffff;
 }
 
 .legend-dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -167,24 +167,24 @@
   background: rgba(0,0,0,0.70);
   border: 2px solid var(--accent);
   border-radius: var(--radius-md);
-  padding: 16px 18px;
+  padding: 10px 12px;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-width: 260px;
+  gap: 7px;
+  min-width: 200px;
   backdrop-filter: blur(8px);
 }
 
 .info-card__title {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 800;
   color: var(--accent);
   letter-spacing: 0.05em;
 }
 
 .info-card__highlight {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: #ffffff;
 }
@@ -193,32 +193,32 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .info-card__list li {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
   color: #ffffff;
-  padding-left: 10px;
+  padding-left: 8px;
   border-left: 2px solid var(--accent);
 }
 
 .info-card__links {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 10px;
+  gap: 6px;
+  padding-top: 7px;
   border-top: 1px solid rgba(0,204,68,0.25);
 }
 
 .info-card__links a {
   display: block;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--accent);
   text-decoration: none;
-  padding: 6px 10px;
+  padding: 5px 8px;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(0,204,68,0.2);
   background: rgba(0,204,68,0.05);
@@ -231,7 +231,7 @@
 }
 
 .info-card__kick {
-  font-size: 14px !important;
+  font-size: 12px !important;
   font-weight: 800 !important;
   background: rgba(0,204,68,0.1) !important;
   border-color: var(--accent) !important;
@@ -255,35 +255,35 @@
   background: rgba(0,0,0,0.70);
   border: 2px solid var(--accent);
   border-radius: var(--radius-lg);
-  padding: 14px 24px;
+  padding: 10px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   backdrop-filter: blur(8px);
 }
 
 .search-bar-title {
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 700;
   color: #ffffff;
   text-align: center;
   white-space: nowrap;
 }
 
-.search-bar-buttons { display: flex; gap: 12px; }
+.search-bar-buttons { display: flex; gap: 10px; }
 
 .search-bar-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 32px;
-  height: 52px;
+  gap: 8px;
+  padding: 0 20px;
+  height: 38px;
   background: rgba(0,204,68,0.1);
   border: 2px solid var(--accent);
   border-radius: var(--radius-md);
   color: var(--accent);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
   transition: all var(--transition);
@@ -295,7 +295,7 @@
 /* ─── Boutons flottants ──────────────────────────────────────────────────── */
 #floating-controls {
   position: absolute;
-  bottom: 40px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 400;
@@ -303,7 +303,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
   max-width: calc(100vw - 40px);
 }
@@ -312,25 +312,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 0 32px;
-  height: 64px;
+  gap: 8px;
+  padding: 0 18px;
+  height: 46px;
   background: rgba(0,0,0,0.85) !important;
   border: 2px solid var(--accent);
   border-radius: var(--radius-lg);
   color: #ffffff;
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
   transition: color var(--transition);
-  min-width: 240px;
+  min-width: 170px;
   cursor: pointer;
   backdrop-filter: blur(8px);
 }
 
 .fab:hover { color: var(--accent); }
 .fab.is-active { color: var(--accent); border-color: var(--accent); }
-.fab__icon { font-size: 26px; line-height: 1; }
+.fab__icon { font-size: 18px; line-height: 1; }
 
 /* Masque individuellement les 4 boutons Afficher/Masquer (pas le conteneur entier :
    le bouton oeil vit dans le meme groupe et doit rester visible/cliquable). */
@@ -340,8 +340,8 @@
    masquer/afficher ces 4 boutons eux-memes : permet une vue carte 100% degagee. */
 .mini-toggle {
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,7 +349,7 @@
   border: 2px solid var(--accent);
   border-radius: 8px;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
