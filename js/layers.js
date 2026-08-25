@@ -1,6 +1,6 @@
 import { getMap }     from "./map.js?v=3";
 import { buildPopup } from "./popup.js?v=2";
-import { CONFIG }     from "./config.js?v=8";
+import { CONFIG }     from "./config.js?v=9";
 
 let _mcdoLayer     = null;
 let _mcdoCluster   = null;

@@ -2,7 +2,7 @@ import { getDb } from "./firebase.js?v=2";
 import { doc, getDoc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getMap } from "./map.js?v=3";
-import { CONFIG } from "./config.js?v=8";
+import { CONFIG } from "./config.js?v=9";
 
 // Point vert "position actuelle" sur la grosse carte, comme le point bleu de la
 // mini map de l'overlay - même doc source (tracking/live, écrit par l'APK
