@@ -358,6 +358,11 @@
 .mini-toggle:hover { color: var(--accent); }
 .mini-toggle.is-active { color: var(--accent); }
 
+/* Sur desktop : icone oeil classique. Sur mobile, remplacee par une fleche
+   pivotante (voir media query plus bas) - plus parlant pour plier/deplier
+   le paquet de boutons empiles verticalement. */
+.mini-toggle__arrow { display: none; }
+
 /* ─── Panneau recherche ──────────────────────────────────────────────────── */
 #search-panel {
   position: absolute;
@@ -697,6 +702,16 @@
     height: 30px;
     font-size: 15px;
   }
+
+  .mini-toggle__eye { display: none; }
+
+  .mini-toggle__arrow {
+    display: inline-flex;
+    transition: transform var(--transition);
+  }
+
+  /* Repliee (fleche a droite) -> depliee (fleche vers le bas) */
+  .mini-toggle.is-active .mini-toggle__arrow { transform: rotate(90deg); }
 
   /* Panneau recherche */
   #search-panel {
