@@ -18,7 +18,7 @@ export const CONFIG = {
   totalMcdo: 1500,
 
   geojson: {
-    points:  "./assets/mcdo_1500_points.geojson?v=2",
+    points:  "./assets/mcdo_1500_points.geojson?v=3",
     parcours:"./assets/mcdo_1500_parcours.geojson",
   },
 

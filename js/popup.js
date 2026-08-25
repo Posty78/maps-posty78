@@ -1,4 +1,4 @@
-import { CONFIG } from "./config.js?v=7";
+import { CONFIG } from "./config.js?v=8";
 
 const panel = document.getElementById("popup-panel");
 
