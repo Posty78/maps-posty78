@@ -149,19 +149,29 @@ export function bindInfosButton() {
 
 export function bindToggleButtonsButton() {
   const floatingControls = document.getElementById("floating-controls");
+  const hud              = document.getElementById("hud");
+  const topControls      = document.getElementById("top-controls");
   if (!btnToggleButtons || !floatingControls) return;
 
-  // Le bouton oeil vit dans le meme groupe que les 4 autres (#floating-controls) mais
-  // ne doit jamais se masquer lui-meme : on cache individuellement les autres boutons
-  // (.fab), pas le conteneur entier.
+  // Le bouton oeil/fleche vit dans le meme groupe que les 4 autres (#floating-controls)
+  // mais ne doit jamais se masquer lui-meme : on cache individuellement les autres
+  // boutons (.fab), pas le conteneur entier. Il masque aussi le HUD (progression,
+  // legende, infos giveaway) et la recherche : un seul geste pour degager toute la
+  // carte, plutot que de devoir en plus aller chercher le bouton "Infos".
   const otherButtons = Array.from(floatingControls.querySelectorAll(".fab"));
 
   btnToggleButtons.classList.add("is-active");
   btnToggleButtons.addEventListener("click", () => {
     const isNowHidden = !otherButtons[0]?.classList.contains("is-hidden");
     otherButtons.forEach((btn) => btn.classList.toggle("is-hidden", isNowHidden));
+    if (hud) hud.classList.toggle("is-hidden", isNowHidden);
+    if (topControls) topControls.classList.toggle("is-hidden", isNowHidden);
+    if (isNowHidden) closeSearch();
+
     btnToggleButtons.classList.toggle("is-active", !isNowHidden);
     btnToggleButtons.setAttribute("aria-pressed", String(!isNowHidden));
+    btnInfos?.classList.toggle("is-active", !isNowHidden);
+    btnInfos?.setAttribute("aria-pressed", String(!isNowHidden));
   });
 }
 

@@ -12,7 +12,7 @@ import {
   bindSearchUI,
   bindLocateButton,
   hideLoader,
-}                                          from "./ui.js?v=2";
+}                                          from "./ui.js?v=3";
 
 async function bootstrap() {
   try {
