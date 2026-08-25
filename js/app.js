@@ -1,7 +1,7 @@
 import { CONFIG }                          from "./config.js?v=11";
 import { initFirebase, startRealtimeListener } from "./firebase.js?v=2";
 import { initMap }                         from "./map.js?v=3";
-import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js?v=3";
+import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js?v=4";
 import { initHistory }                     from "./history.js?v=2";
 import { initLivePosition }                from "./live-position.js?v=3";
 import {
@@ -12,7 +12,7 @@ import {
   bindSearchUI,
   bindLocateButton,
   hideLoader,
-}                                          from "./ui.js?v=3";
+}                                          from "./ui.js?v=4";
 
 async function bootstrap() {
   try {

@@ -117,6 +117,7 @@ function createClusterIcon(cluster) {
 }
 
 function createSpecialIcon(emoji, color, label) {
+  // Taille divisee par 4 par rapport a l'originale (pin 36px -> 9px, etc.)
   return L.divIcon({
     className: "",
     html: `
@@ -124,37 +125,37 @@ function createSpecialIcon(emoji, color, label) {
         display: flex;
         flex-direction: column;
         align-items: center;
-        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+        filter: drop-shadow(0 0.5px 1.5px rgba(0,0,0,0.5));
       ">
         <div style="
           background: ${color};
-          border: 2px solid white;
+          border: 0.5px solid white;
           border-radius: 50% 50% 50% 0;
           transform: rotate(-45deg);
-          width: 36px;
-          height: 36px;
+          width: 9px;
+          height: 9px;
           display: flex;
           align-items: center;
           justify-content: center;
         ">
-          <span style="transform: rotate(45deg); font-size: 18px; line-height:1;">${emoji}</span>
+          <span style="transform: rotate(45deg); font-size: 4.5px; line-height:1;">${emoji}</span>
         </div>
         <div style="
           background: ${color};
           color: white;
-          font-size: 10px;
+          font-size: 2.5px;
           font-weight: 700;
-          padding: 2px 6px;
-          border-radius: 4px;
-          margin-top: 2px;
+          padding: 0.5px 1.5px;
+          border-radius: 1px;
+          margin-top: 0.5px;
           white-space: nowrap;
           font-family: Inter, sans-serif;
           letter-spacing: 0.05em;
         ">${label}</div>
       </div>
     `,
-    iconSize:   [60, 56],
-    iconAnchor: [18, 54],
+    iconSize:   [15, 14],
+    iconAnchor: [4.5, 13.5],
   });
 }
 
