@@ -21,7 +21,21 @@ function getMarkerColor(markerIndex, currentMcdo) {
   return CONFIG.markerColors.future;
 }
 
-function createMarkerIcon(color, isCurrent = false, inProgress = false) {
+// Etiquette numero : police volontairement petite (9px) et compacte pour ne
+// jamais depasser la taille du point lui-meme a l'oeil - le contour noir
+// (text-shadow multi-directions, moins couteux qu'un filtre) garde le chiffre
+// lisible sur n'importe quel fond de carte sans avoir a agrandir la police.
+function numberLabelHtml(number, leftPx) {
+  if (number == null) return "";
+  return `<span style="
+      position:absolute; left:${leftPx}px; top:50%; transform:translateY(-50%);
+      font-family:'Inter',sans-serif; font-size:9px; font-weight:800; line-height:1;
+      color:#ffffff; white-space:nowrap; pointer-events:none;
+      text-shadow:-1px -1px 1px #000,1px -1px 1px #000,-1px 1px 1px #000,1px 1px 1px #000;
+    ">${number}</span>`;
+}
+
+function createMarkerIcon(color, isCurrent = false, inProgress = false, number = null) {
   const size = isCurrent ? 22 : 12;
 
   if (isCurrent) {
@@ -31,10 +45,10 @@ function createMarkerIcon(color, isCurrent = false, inProgress = false) {
     return L.divIcon({
       className: "",
       html: `
-        <div style="position:relative; width:40px; height:40px; transform:translate(-10px,-10px);">
+        <div style="position:relative; width:64px; height:40px; transform:translate(-10px,-10px);">
           <div style="
             position:absolute;
-            top:50%; left:50%;
+            top:50%; left:20px;
             transform:translate(-50%,-50%);
             width:40px; height:40px;
             border-radius:50%;
@@ -43,7 +57,7 @@ function createMarkerIcon(color, isCurrent = false, inProgress = false) {
           "></div>
           <div style="
             position:absolute;
-            top:50%; left:50%;
+            top:50%; left:20px;
             transform:translate(-50%,-50%);
             width:20px; height:20px;
             border-radius:50%;
@@ -51,6 +65,7 @@ function createMarkerIcon(color, isCurrent = false, inProgress = false) {
             border:2px solid white;
             box-shadow: 0 0 10px ${pulseColor};
           "></div>
+          ${numberLabelHtml(number, 40)}
         </div>
         <style>
           @keyframes pulseRing {
@@ -59,21 +74,25 @@ function createMarkerIcon(color, isCurrent = false, inProgress = false) {
           }
         </style>
       `,
-      iconSize:   [40, 40],
+      iconSize:   [64, 40],
       iconAnchor: [10, 10],
     });
   }
 
   // Pas de filtre drop-shadow ici (coûteux à répéter sur ~1500 marqueurs) : le
-  // contour blanc suffit à distinguer le point du fond de carte.
+  // contour blanc suffit à distinguer le point du fond de carte. La boite de
+  // l'icone est elargie pour loger le numero sans jamais chevaucher le point.
   return L.divIcon({
     className: "",
-    html: `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"
-             xmlns="http://www.w3.org/2000/svg">
-             <circle cx="${size/2}" cy="${size/2}" r="${size/2 - 1}"
-               fill="${color}" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
-           </svg>`,
-    iconSize:   [size, size],
+    html: `<div style="position:relative; width:${size + 24}px; height:${size}px;">
+             <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"
+               xmlns="http://www.w3.org/2000/svg">
+               <circle cx="${size/2}" cy="${size/2}" r="${size/2 - 1}"
+                 fill="${color}" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+             </svg>
+             ${numberLabelHtml(number, size + 3)}
+           </div>`,
+    iconSize:   [size + 24, size],
     iconAnchor: [size/2, size/2],
   });
 }
@@ -174,7 +193,7 @@ function _buildMcdoLayer(geojsonData, currentMcdo, currentMcdoInProgress = false
       } else if (ordre === 1500) {
         icon = createSpecialIcon("🏆", "#ef4444", "ARRIVÉE");
       } else {
-        icon = createMarkerIcon(color, index === currentMcdo, index === currentMcdo && currentMcdoInProgress);
+        icon = createMarkerIcon(color, index === currentMcdo, index === currentMcdo && currentMcdoInProgress, ordre);
       }
 
       const marker = L.marker(latlng, {
@@ -271,7 +290,7 @@ export function updateMarkerColors(currentMcdo, currentMcdoInProgress = false) {
   _markerIndex.forEach(({ marker, index }, id) => {
     if (index === 1 || index === 1500) return;
     const color = getMarkerColor(index, currentMcdo);
-    const icon  = createMarkerIcon(color, index === currentMcdo, index === currentMcdo && currentMcdoInProgress);
+    const icon  = createMarkerIcon(color, index === currentMcdo, index === currentMcdo && currentMcdoInProgress, index);
     marker.setIcon(icon);
   });
 }
