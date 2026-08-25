@@ -1,6 +1,6 @@
 import { getMap }     from "./map.js?v=3";
 import { buildPopup } from "./popup.js?v=2";
-import { CONFIG }     from "./config.js?v=11";
+import { CONFIG }     from "./config.js?v=12";
 
 let _mcdoLayer     = null;
 let _mcdoCluster   = null;
@@ -245,10 +245,13 @@ function _buildParcoursLayer(geojsonData, currentMcdo) {
   _parcoursLayer = L.layerGroup([_parcoursUpcoming, _parcoursTraveled]);
 }
 
-// L'index 0 du tracé correspond au départ (MC0001), donc index de coupure = currentMcdo
+// L'index 0 du tracé correspond desormais directement au point n°1 (MC0001) - le
+// point de depart virtuel qui precedait le trace a ete retire (creait un crochet/
+// triangle disgracieux au tout debut). currentMcdo points visites -> les currentMcdo
+// premiers indices (0 a currentMcdo-1) sont "traveled".
 function _splitIndexFor(currentMcdo) {
   const max = _parcoursCoords.length - 1;
-  return Math.max(0, Math.min(currentMcdo, max));
+  return Math.max(0, Math.min(currentMcdo - 1, max));
 }
 
 export function updateParcoursColors(currentMcdo) {
