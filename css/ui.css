@@ -698,8 +698,8 @@
   .fab__icon { font-size: 18px; }
 
   .mini-toggle {
-    width: 30px;
-    height: 30px;
+    width: 44px;
+    height: 44px;
     font-size: 15px;
   }
 
@@ -707,11 +707,14 @@
 
   .mini-toggle__arrow {
     display: inline-flex;
+    width: 20px;
+    height: 20px;
     transition: transform var(--transition);
   }
 
-  /* Repliee (fleche a droite) -> depliee (fleche vers le bas) */
-  .mini-toggle.is-active .mini-toggle__arrow { transform: rotate(90deg); }
+  /* Repliee (fleche vers le haut, comme une poignee de tiroir a tirer) ->
+     depliee (fleche vers le bas, pour refermer). */
+  .mini-toggle.is-active .mini-toggle__arrow { transform: rotate(180deg); }
 
   /* Panneau recherche */
   #search-panel {
