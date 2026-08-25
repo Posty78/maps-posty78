@@ -1,5 +1,5 @@
 import { CONFIG }                                  from "./config.js?v=11";
-import { toggleMcdo, toggleParcours, getAllMcdoFeatures, getRawFeatures } from "./layers.js?v=4";
+import { toggleMcdo, toggleParcours, getAllMcdoFeatures, getRawFeatures } from "./layers.js?v=5";
 import { toggleHistory }                           from "./history.js?v=2";
 import { openSearch, closeSearch, searchByQuery }  from "./search.js?v=5";
 import { locateUser }                              from "./geolocation.js?v=3";
