@@ -1,6 +1,6 @@
 import { getMap }     from "./map.js?v=3";
 import { buildPopup } from "./popup.js?v=2";
-import { CONFIG }     from "./config.js?v=12";
+import { CONFIG }     from "./config.js?v=13";
 
 let _mcdoLayer     = null;
 let _mcdoCluster   = null;
@@ -14,6 +14,10 @@ let _parcoursVisible = false;
 
 const _markerIndex = new Map();
 let _rawFeatures = [];
+// ordre (1..1500) -> index dans le tableau de coordonnees du trace (geometrie routiere
+// reelle, pas 1 point par McDo) : indispensable depuis que le trace suit les vraies
+// routes (des dizaines de milliers de points intermediaires entre 2 McDo consecutifs).
+let _stopGeomIndex = [];
 
 function getMarkerColor(markerIndex, currentMcdo) {
   if (markerIndex < currentMcdo)   return CONFIG.markerColors.visited;
@@ -177,6 +181,10 @@ export async function loadLayers(currentMcdo, currentMcdoInProgress = false) {
 function _buildMcdoLayer(geojsonData, currentMcdo, currentMcdoInProgress = false) {
   _markerIndex.clear();
 
+  // geojsonData.features est deja trie par ordre (1..1500) : geomIndex[i] = position
+  // du i-eme arret dans la geometrie routiere du trace (voir _splitIndexFor).
+  _stopGeomIndex = geojsonData.features.map((f) => f.properties?.geomIndex ?? 0);
+
   // Départ et arrivée restent toujours visibles individuellement (jamais regroupés
   // dans une bulle), tout le reste (~1498 points) va dans le groupe de clusters :
   // avec 1500 marqueurs DOM individuels, le premier chargement de la carte devenait
@@ -245,13 +253,15 @@ function _buildParcoursLayer(geojsonData, currentMcdo) {
   _parcoursLayer = L.layerGroup([_parcoursUpcoming, _parcoursTraveled]);
 }
 
-// L'index 0 du tracé correspond desormais directement au point n°1 (MC0001) - le
-// point de depart virtuel qui precedait le trace a ete retire (creait un crochet/
-// triangle disgracieux au tout debut). currentMcdo points visites -> les currentMcdo
-// premiers indices (0 a currentMcdo-1) sont "traveled".
+// Le trace suit desormais les vraies routes (geometrie dense, des dizaines de milliers
+// de points entre 2 McDo consecutifs) : l'index de coupure n'est plus "currentMcdo-1"
+// mais la position reelle du currentMcdo-ieme arret dans cette geometrie (_stopGeomIndex,
+// rempli par _buildMcdoLayer a partir de la propriete geomIndex de chaque point).
 function _splitIndexFor(currentMcdo) {
   const max = _parcoursCoords.length - 1;
-  return Math.max(0, Math.min(currentMcdo - 1, max));
+  if (currentMcdo <= 0) return 0;
+  const stopPos = _stopGeomIndex[currentMcdo - 1];
+  return Math.max(0, Math.min(stopPos ?? max, max));
 }
 
 export function updateParcoursColors(currentMcdo) {
