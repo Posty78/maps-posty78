@@ -1,4 +1,4 @@
-import { CONFIG }                          from "./config.js?v=13";
+import { CONFIG }                          from "./config.js?v=14";
 import { initFirebase, startRealtimeListener } from "./firebase.js?v=2";
 import { initMap }                         from "./map.js?v=3";
 import { loadLayers, updateMarkerColors, updateParcoursColors, toggleMcdo, toggleParcours }  from "./layers.js?v=7";

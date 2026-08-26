@@ -60,10 +60,10 @@ export const CONFIG = {
     // niveau fixe par visiteur, indépendant du rythme réel du GPS.
     pollIntervalMs: 20_000,
     style: {
-      radius: 8,
+      radius: 9,
       color: "#ffffff",
       weight: 3,
-      fillColor: "#00cc44",
+      fillColor: "#ff0000",
       fillOpacity: 1,
       className: "live-position-marker",
     },

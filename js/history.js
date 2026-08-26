@@ -2,7 +2,7 @@ import { getDb } from "./firebase.js?v=2";
 import { doc, getDoc, onSnapshot }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getMap } from "./map.js?v=3";
-import { CONFIG } from "./config.js?v=13";
+import { CONFIG } from "./config.js?v=14";
 
 // Historique du tracé réel (position GPS parcourue) : stocké côté serveur en docs
 // "hebdomadaires" (tracking_history/w{N}) pour garder un volume de lecture raisonnable

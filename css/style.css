@@ -159,17 +159,18 @@ a {
   color: var(--text-secondary) !important;
 }
 
-/* Point de position GPS en direct : respiration douce pour rester bien visible
-   même au milieu des marqueurs McDo (vert distinct, pas confondu avec le bleu
-   "à venir" des McDo non visités). */
-@keyframes live-position-breathe {
-  0%, 100% { opacity: 1;    transform: scale(1);   }
-  50%      { opacity: 0.55; transform: scale(1.35); }
+/* Point de position GPS en direct : rouge vif clignotant (franc, pas un fondu) pour
+   sauter aux yeux immédiatement au milieu des marqueurs McDo (vert visité/bleu à
+   venir), même en un simple coup d'oeil rapide sur la carte. */
+@keyframes live-position-blink {
+  0%, 49%   { opacity: 1;    transform: scale(1.15); }
+  50%, 100% { opacity: 0.2;  transform: scale(0.9);  }
 }
 .live-position-marker {
   transform-box: fill-box;
   transform-origin: center;
-  animation: live-position-breathe 1.8s ease-in-out infinite;
+  animation: live-position-blink 0.9s steps(1, end) infinite;
+  filter: drop-shadow(0 0 6px #ff0000);
 }
 
 @media (max-width: 640px) {
