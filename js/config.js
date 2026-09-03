@@ -87,10 +87,6 @@ export const CONFIG = {
     nominatimParams: "format=json&countrycodes=fr&limit=1",
   },
 
-  admin: {
-    password: "[PASSWORD_REDACTED]",
-  },
-
 };
 
 Object.freeze(CONFIG);

@@ -3,10 +3,14 @@ rules_version = '2';
 // UID admin : P0bZ13Zs67PICnJiieYXiPgoGWs2
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Bloc existant (maps/giveaway/barbecue etc.)
+    // Bloc existant (maps/giveaway/barbecue etc.) : lecture publique (site, overlay),
+    // ecriture reservee a l'admin. Avant correction (audit du 03/09/2026), c'etait
+    // "allow write: if true" - n'importe qui pouvait truquer currentMcdo depuis la
+    // console du navigateur, sans mot de passe. currentMcdo est aussi mis a jour par
+    // la Cloud Function checkMcdoPerimeter (Admin SDK, contourne ces regles).
     match /project/{document} {
       allow read: if true;
-      allow write: if true;
+      allow write: if request.auth != null && request.auth.uid == "P0bZ13Zs67PICnJiieYXiPgoGWs2";
     }
     // Position live de l'APK de tracking : lecture publique (mini-map overlay + maps.posty78.fr).
     // Ecriture autorisee a tout client authentifie (l'APK se connecte en anonyme au demarrage,
