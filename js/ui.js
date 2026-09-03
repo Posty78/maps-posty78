@@ -41,7 +41,7 @@ function getTotalVilles(features) {
   return _totalVilles;
 }
 
-function updateVillesUI(currentMcdo) {
+function updateVillesUI(completedMcdo) {
   if (!elVillesCount) return;
   const features = getRawFeatures();
   if (!features.length) return;
@@ -50,7 +50,7 @@ function updateVillesUI(currentMcdo) {
   const visited = new Set();
   features.forEach((f) => {
     const index = parseInt(String(f.id).replace("MC", ""), 10);
-    if (index <= currentMcdo) {
+    if (index <= completedMcdo) {
       const commune = communeOf(f.properties);
       if (commune) visited.add(commune);
     }
@@ -65,22 +65,28 @@ function updateVillesUI(currentMcdo) {
 }
 
 export function updateProgressUI(currentMcdo, realDistanceKm) {
+  // currentMcdo (stocke/Cloud Function) = le McDo actuellement vise, pas encore
+  // valide - cible technique necessaire pour que la detection GPS automatique
+  // continue de fonctionner (jamais 0, sinon plus aucune cible trouvee). Les
+  // affichages publics, eux, doivent compter les McDo REELLEMENT valides :
+  // completedMcdo = currentMcdo - 1 (0 tant qu'aucun n'est valide).
+  const completedMcdo = Math.max(0, currentMcdo - 1);
   const total   = CONFIG.totalMcdo;
-  const percent = ((currentMcdo / total) * 100).toFixed(1);
+  const percent = ((completedMcdo / total) * 100).toFixed(1);
 
-  if (elCount)   elCount.textContent   = `${currentMcdo} / ${total}`;
+  if (elCount)   elCount.textContent   = `${completedMcdo} / ${total}`;
   if (elPercent) elPercent.textContent = `${percent} %`;
   if (elBar)     elBar.style.width     = `${percent}%`;
 
   window.__currentMcdo = currentMcdo;
 
-  updateVillesUI(currentMcdo);
+  updateVillesUI(completedMcdo);
 
   // cumul_km du dernier McDo valide : reference utilisee par "date estimee" (popup.js),
   // un calcul base sur le trace, distinct de l'affichage "Distance parcourue" ci-dessous.
-  if (currentMcdo > 0) {
+  if (completedMcdo > 0) {
     const features = getAllMcdoFeatures();
-    const id = "MC" + String(currentMcdo).padStart(4, "0");
+    const id = "MC" + String(completedMcdo).padStart(4, "0");
     const found = features.find((f) => f.id === id);
     const cumulKm = found?.properties?.cumul_km;
     window.__currentMcdoCumulKm = typeof cumulKm === "number" ? cumulKm : null;
