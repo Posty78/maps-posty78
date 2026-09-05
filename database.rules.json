@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "battery_status": {
+      ".read": true,
+      ".write": true
+    },
+    "vehicle_status": {
+      ".read": true,
+      ".write": false
+    },
+    ".read": false,
+    ".write": false
+  }
+}
