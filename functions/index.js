@@ -1,8 +1,42 @@
 const { onDocumentWritten } = require("firebase-functions/v2/firestore");
+const { onRequest } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 const admin = require("firebase-admin");
+const crypto = require("crypto");
 
 admin.initializeApp();
 const db = admin.firestore();
+const rtdb = admin.database();
+
+// Meme secret que celui deja stocke sur le telephone (Prefs.trackingSecret) pour
+// submitTracking - reutilise tel quel pour submitSpeed, aucun changement cote app
+// pour la position existante. VEHICLE_SECRET est un secret different, partage
+// uniquement avec commandWebhook (posty78-overlay) pour !jauge/!essence.
+const TRACKING_SECRET = defineSecret("TRACKING_SECRET");
+const VEHICLE_SECRET = defineSecret("VEHICLE_SECRET");
+
+// Comparaison en temps constant (meme raisonnement que commandWebhook cote
+// posty78-overlay : evite qu'une comparaison "!==" laisse fuir, via le temps de
+// reponse, le nombre de caracteres corrects d'un secret).
+function safeEqual(a, b) {
+  const bufA = Buffer.from(String(a ?? ""));
+  const bufB = Buffer.from(String(b ?? ""));
+  if (bufA.length !== bufB.length) {
+    crypto.timingSafeEqual(bufA, bufA);
+    return false;
+  }
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
+// Reservoir reel de la 206 1.4i 75ch (fiche constructeur) et conso fixe estimee
+// pour une conduite moyenne a soutenue (~6.3L/100km constructeur, ~6-8.5L/100km
+// releves reels) - volontairement une constante simple : Posty78 corrige lui-meme
+// au feeling via !jauge si l'estimation derive, plutot qu'un calcul dynamique a
+// partir des pleins (il fait le plein en petites quantites tres frequemment, pas
+// de vrai "plein complet" a partir duquel calculer une conso reelle fiable).
+const FUEL_TANK_LITERS = 50;
+const FUEL_CONSUMPTION_L_PER_100KM = 6.5;
+const FUEL_DEFAULT_PERCENT = 100;
 
 const MCDO_GEOJSON_URL = "https://maps.posty78.fr/assets/mcdo_1500_points.geojson";
 const PERIMETER_METERS = 200;
@@ -114,7 +148,20 @@ function updatePace(statusData, position, now) {
     lastPacePosition: { lat: position.lat, lng: position.lng, timestamp: now },
     smoothedPaceKmPerDay: smoothed,
     realDistanceKm,
+    fuelPercent: nextFuelPercent(statusData, distanceMeters),
   };
+}
+
+// Fait baisser la jauge essence en fonction de la distance reellement parcourue
+// depuis le dernier point valide (meme filtre anti-bruit/glitch que l'odometre,
+// vu qu'elle est calculee dans la meme fonction sur le meme distanceMeters).
+// Conso fixe (voir FUEL_CONSUMPTION_L_PER_100KM) : pas de recalcul dynamique a
+// partir des pleins, corrige manuellement via !jauge si besoin.
+function nextFuelPercent(statusData, distanceMeters) {
+  const current = typeof statusData.fuelPercent === "number" ? statusData.fuelPercent : FUEL_DEFAULT_PERCENT;
+  const litersUsed = (distanceMeters / 1000) * (FUEL_CONSUMPTION_L_PER_100KM / 100);
+  const percentUsed = (litersUsed / FUEL_TANK_LITERS) * 100;
+  return Math.max(0, current - percentUsed);
 }
 
 // Enregistre un point du tracé réel (historique GPS) dans un doc "hebdomadaire"
@@ -210,5 +257,85 @@ exports.checkMcdoPerimeter = onDocumentWritten(
       Object.keys(update).length ? statusRef.set(update, { merge: true }) : null,
       historyWrite,
     ]);
+  }
+);
+
+// Recoit la vitesse depuis l'APK de tracking (canal separe de submitTracking, a
+// une cadence bien plus rapide - 1-2s au lieu de 5s). Ecrit uniquement en RTDB,
+// jamais en Firestore : a cette frequence, Firestore facturerait a l'operation
+// (risque reel de depasser le quota gratuit sur 15h/jour), alors que RTDB facture
+// au volume de donnees, negligeable ici (quelques octets par ecriture). Meme
+// principe que battery_status, deja utilise par PostyMonitor pour la batterie.
+exports.submitSpeed = onRequest(
+  { region: "europe-west1", secrets: [TRACKING_SECRET], cors: true, maxInstances: 5 },
+  async (req, res) => {
+    const providedSecret = req.get("x-tracking-secret") || "";
+    if (!safeEqual(providedSecret, TRACKING_SECRET.value())) {
+      res.status(403).json({ ok: false, error: "invalid secret" });
+      return;
+    }
+
+    const speedKmh = parseFloat(req.body?.speedKmh);
+    if (!Number.isFinite(speedKmh) || speedKmh < 0 || speedKmh > 300) {
+      res.status(400).json({ ok: false, error: "invalid speedKmh" });
+      return;
+    }
+
+    try {
+      await rtdb.ref("vehicle_status").update({
+        speedKmh,
+        updatedAt: admin.database.ServerValue.TIMESTAMP,
+      });
+      res.json({ ok: true });
+    } catch (err) {
+      res.status(500).json({ ok: false, error: err.message });
+    }
+  }
+);
+
+// Appelee par commandWebhook (posty78-overlay) pour !jauge (mode "set", valeur
+// exacte en %) et !essence (mode "add", litres ajoutes - recalcule le % selon
+// FUEL_TANK_LITERS). Secret dedie (VEHICLE_SECRET), different de celui de
+// submitSpeed/submitTracking : cet endpoint est appele serveur-a-serveur depuis
+// posty78-overlay, jamais directement par le telephone ou par Botsty78.
+exports.updateFuel = onRequest(
+  { region: "europe-west1", secrets: [VEHICLE_SECRET], cors: true, maxInstances: 5 },
+  async (req, res) => {
+    const providedSecret = req.get("x-vehicle-secret") || "";
+    if (!safeEqual(providedSecret, VEHICLE_SECRET.value())) {
+      res.status(403).json({ ok: false, error: "invalid secret" });
+      return;
+    }
+
+    const payload = req.method === "POST" ? req.body : req.query;
+    const mode = payload?.mode;
+    const statusRef = db.collection("project").doc("status");
+
+    try {
+      let nextPercent;
+      await db.runTransaction(async (tx) => {
+        const snap = await tx.get(statusRef);
+        const current = typeof snap.data()?.fuelPercent === "number" ? snap.data().fuelPercent : FUEL_DEFAULT_PERCENT;
+
+        if (mode === "set") {
+          const value = parseFloat(String(payload?.value ?? "").replace(",", "."));
+          if (!Number.isFinite(value)) throw new Error("invalid value");
+          nextPercent = Math.max(0, Math.min(100, value));
+        } else if (mode === "add") {
+          const liters = parseFloat(String(payload?.liters ?? "").replace(",", "."));
+          if (!Number.isFinite(liters) || liters < 0) throw new Error("invalid liters");
+          const percentAdded = (liters / FUEL_TANK_LITERS) * 100;
+          nextPercent = Math.max(0, Math.min(100, current + percentAdded));
+        } else {
+          throw new Error("invalid mode");
+        }
+
+        tx.set(statusRef, { fuelPercent: nextPercent }, { merge: true });
+      });
+
+      res.json({ ok: true, fuelPercent: nextPercent });
+    } catch (err) {
+      res.status(400).json({ ok: false, error: err.message });
+    }
   }
 );
