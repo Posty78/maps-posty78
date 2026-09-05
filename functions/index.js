@@ -303,13 +303,21 @@ exports.updateFuel = onRequest(
   async (req, res) => {
     const providedSecret = req.get("x-vehicle-secret") || "";
     if (!safeEqual(providedSecret, VEHICLE_SECRET.value())) {
-      res.status(403).json({ ok: false, error: "invalid secret" });
+      res.status(403).json({ ok: false, error: "invalid secret", error_code: "invalid_secret" });
       return;
     }
 
     const payload = req.method === "POST" ? req.body : req.query;
     const mode = payload?.mode;
     const statusRef = db.collection("project").doc("status");
+
+    // error_code attache directement sur l'erreur : remonte tel quel jusqu'a
+    // commandWebhook (posty78-overlay), qui le fait suivre a Botsty78.
+    function codedError(message, code) {
+      const err = new Error(message);
+      err.code = code;
+      return err;
+    }
 
     try {
       let nextPercent;
@@ -319,15 +327,15 @@ exports.updateFuel = onRequest(
 
         if (mode === "set") {
           const value = parseFloat(String(payload?.value ?? "").replace(",", "."));
-          if (!Number.isFinite(value)) throw new Error("invalid value");
+          if (!Number.isFinite(value)) throw codedError("invalid value", "invalid_value");
           nextPercent = Math.max(0, Math.min(100, value));
         } else if (mode === "add") {
           const liters = parseFloat(String(payload?.liters ?? "").replace(",", "."));
-          if (!Number.isFinite(liters) || liters < 0) throw new Error("invalid liters");
+          if (!Number.isFinite(liters) || liters < 0) throw codedError("invalid liters", "invalid_liters");
           const percentAdded = (liters / FUEL_TANK_LITERS) * 100;
           nextPercent = Math.max(0, Math.min(100, current + percentAdded));
         } else {
-          throw new Error("invalid mode");
+          throw codedError("invalid mode", "invalid_mode");
         }
 
         tx.set(statusRef, { fuelPercent: nextPercent }, { merge: true });
@@ -335,7 +343,7 @@ exports.updateFuel = onRequest(
 
       res.json({ ok: true, fuelPercent: nextPercent });
     } catch (err) {
-      res.status(400).json({ ok: false, error: err.message });
+      res.status(400).json({ ok: false, error: err.message, error_code: err.code || "invalid_request" });
     }
   }
 );
